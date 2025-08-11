@@ -111,25 +111,41 @@ export const followUpQuestions = {
     "How long have you been experiencing this?",
     "Can you describe what this feels like for you?",
     "Have you noticed any other changes alongside this?",
-    "Is this something new or has it been building gradually?"
+    "Is this something new or has it been building gradually?",
+    "On a scale of 1-10, how would you rate the intensity?",
+    "Does this remind you of anything you've experienced before?",
+    "What was the first thing you noticed that felt different?",
+    "Are there days when it feels better or worse?"
   ],
   patterns: [
     "Do you notice if this happens at certain times of day?",
     "Have you seen any patterns with your menstrual cycle?",
     "Are there any triggers that seem to make it worse?",
-    "Does anything seem to help when this happens?"
+    "Does anything seem to help when this happens?",
+    "Have you noticed if stress affects this at all?",
+    "Does your diet or sleep seem to play a role?",
+    "Are there seasonal patterns you've observed?",
+    "What about weekends versus weekdays - any difference?"
   ],
   impact: [
     "How is this affecting your daily life?", 
     "Is this impacting your work or relationships?",
     "How are you feeling emotionally about these changes?",
-    "What's been the most challenging part for you?"
+    "What's been the most challenging part for you?",
+    "How has this changed your routine or habits?",
+    "Are there activities you've had to modify or avoid?",
+    "How are the people close to you responding to these changes?",
+    "What worries you most about this continuing?"
   ],
   medicalContext: [
     "Have you been able to discuss this with a healthcare provider?",
     "Are you currently taking any medications or supplements?",
     "Do you have any other health conditions we should be aware of?",
-    "What does your family history look like for menopause?"
+    "What does your family history look like for menopause?",
+    "Have you tried any treatments or remedies so far?",
+    "Are you working with any specific type of healthcare practitioner?",
+    "How do you generally prefer to approach health concerns?",
+    "What's your experience been like with healthcare for women's issues?"
   ]
 };
 
@@ -137,12 +153,24 @@ export const validationResponses = [
   "That sounds really challenging, and it's completely understandable to feel uncertain when your body is changing.",
   "Thank you for sharing this with me - what you're experiencing is so valid.",
   "I hear how frustrating this must be for you. You're not alone in feeling this way.",
-  "It takes courage to talk about these changes. I'm here to listen and support you."
+  "It takes courage to talk about these changes. I'm here to listen and support you.",
+  "What you're describing resonates with so many women going through similar experiences.",
+  "I appreciate you opening up about this. Your feelings and experiences matter.",
+  "This sounds like it's been really difficult to navigate on your own.",
+  "I can hear how much this is affecting you, and that makes complete sense.",
+  "Thank you for trusting me with something so personal and important.",
+  "Your experience is important, and I'm honored that you're sharing it with me."
 ];
 
 export const reflectionPhrases = [
   "It sounds like",
-  "What I'm hearing is that",
+  "What I'm hearing is that", 
   "From what you've shared, it seems",
-  "I understand that you're experiencing"
+  "I understand that you're experiencing",
+  "It seems like you're navigating",
+  "What comes through is that",
+  "I'm getting a sense that",
+  "It appears that you're dealing with",
+  "What I'm picking up is that",
+  "From your description, it sounds like"
 ];
