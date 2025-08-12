@@ -13,14 +13,12 @@ const Community = () => {
       content: "Anyone else experiencing irregular periods around age 40? Starting to feel anxious about what this means...",
       reactions: 12,
       comments: [
-        { id: 1, author: "Sarah M.", content: "You're not alone! I went through this too.", timestamp: "1 hour ago" },
-        { id: 2, author: "Anonymous", content: "Thank you for sharing, this gives me hope", timestamp: "45 min ago" }
+        { id: 1, author: "Sarah M.", content: "You're not alone! I went through this too around 42. It's scary at first but talking to my doctor really helped.", timestamp: "1 hour ago" },
+        { id: 2, author: "Anonymous", content: "Thank you for sharing, this gives me hope", timestamp: "45 min ago" },
+        { id: 3, author: "Linda K.", content: "Same here! Started tracking my symptoms and it helped me see patterns. Happy to share my tracker if helpful.", timestamp: "30 min ago" }
       ],
       timestamp: "2 hours ago",
-      aiResponse: {
-        content: "This is very common during perimenopause, which typically begins in your 40s. Irregular periods are one of the first signs as hormone levels fluctuate. Consider tracking your symptoms and discussing with your healthcare provider.",
-        resources: []
-      }
+      aiResponse: false
     },
     {
       id: 2,
@@ -29,7 +27,8 @@ const Community = () => {
       reactions: 15,
       comments: [
         { id: 1, author: "Dr. Maria L.", content: "Cooling sheets and fans can help. Also consider avoiding triggers like spicy foods before bed.", timestamp: "3 hours ago" },
-        { id: 2, author: "Jenny K.", content: "I started doing yoga before bed - it really helps!", timestamp: "2 hours ago" }
+        { id: 2, author: "Jenny K.", content: "I started doing yoga before bed - it really helps! Also got a cooling mattress pad.", timestamp: "2 hours ago" },
+        { id: 3, author: "Rachel T.", content: "Layered pajamas saved my life! Easy to remove when the heat hits.", timestamp: "1 hour ago" }
       ],
       timestamp: "5 hours ago",
       aiResponse: false
@@ -40,7 +39,9 @@ const Community = () => {
       content: "I've been struggling with mood swings and brain fog. Is this normal during perimenopause?",
       reactions: 23,
       comments: [
-        { id: 1, author: "Dr. Emma T.", content: "These are very common symptoms due to hormonal fluctuations affecting neurotransmitters.", timestamp: "1 day ago" }
+        { id: 1, author: "Dr. Emma T.", content: "These are very common symptoms due to hormonal fluctuations affecting neurotransmitters.", timestamp: "1 day ago" },
+        { id: 2, author: "Michelle R.", content: "Yes! I thought I was losing my mind. Meditation and regular exercise helped me so much.", timestamp: "20 hours ago" },
+        { id: 3, author: "Anonymous", content: "Thank you both - I was feeling so alone in this", timestamp: "18 hours ago" }
       ],
       timestamp: "1 day ago",
       aiResponse: {
@@ -61,13 +62,12 @@ const Community = () => {
       content: "What supplements have helped you during this transition? I'm feeling so fatigued lately.",
       reactions: 18,
       comments: [
-        { id: 1, author: "Nutritionist Amy", content: "Magnesium and B-complex have helped many of my clients with energy levels.", timestamp: "6 hours ago" }
+        { id: 1, author: "Nutritionist Amy", content: "Magnesium and B-complex have helped many of my clients with energy levels.", timestamp: "6 hours ago" },
+        { id: 2, author: "Susan P.", content: "I second magnesium! Also vitamin D made a huge difference for me - get your levels checked.", timestamp: "5 hours ago" },
+        { id: 3, author: "Carol M.", content: "Iron deficiency was my issue. Blood work revealed I was severely low - now I feel human again!", timestamp: "4 hours ago" }
       ],
       timestamp: "8 hours ago",
-      aiResponse: {
-        content: "Fatigue is a common symptom. While supplements can help, it's important to consult with your healthcare provider first. Some commonly discussed options include magnesium, vitamin D, and B-complex vitamins. Consider getting blood work to check for deficiencies.",
-        resources: []
-      }
+      aiResponse: false
     },
     {
       id: 5,
@@ -77,13 +77,11 @@ const Community = () => {
       comments: [
         { id: 1, author: "Sleep Coach Lisa", content: "Sleep disruption is so common! Try keeping your room cool and maintaining a consistent bedtime routine.", timestamp: "12 hours ago" },
         { id: 2, author: "Anonymous", content: "Melatonin has helped me, but definitely talk to your doctor first", timestamp: "10 hours ago" },
-        { id: 3, author: "Dr. Susan R.", content: "Hormone fluctuations directly impact sleep patterns. This is very treatable!", timestamp: "8 hours ago" }
+        { id: 3, author: "Dr. Susan R.", content: "Hormone fluctuations directly impact sleep patterns. This is very treatable!", timestamp: "8 hours ago" },
+        { id: 4, author: "Maria G.", content: "Blackout curtains and white noise machine were game changers for me", timestamp: "6 hours ago" }
       ],
       timestamp: "14 hours ago",
-      aiResponse: {
-        content: "Sleep disturbances affect up to 80% of women during perimenopause. Declining estrogen and progesterone levels disrupt your natural sleep-wake cycle. Good sleep hygiene, keeping cool, and consistent routines can help significantly.",
-        resources: []
-      }
+      aiResponse: false
     }
   ]);
 
