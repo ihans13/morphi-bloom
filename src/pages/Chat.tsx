@@ -39,9 +39,9 @@ const Chat = () => {
   const [savedChats, setSavedChats] = useState([
     {
       id: 1,
-      title: "Today - I have severe headaches and hot flashes...",
+      title: "Headaches and pain management",
       date: "Today",
-      preview: "I have severe headaches and hot flashes...",
+      preview: "I have severe headaches and hot flashes that are affecting my daily life...",
       messages: []
     }
   ]);
@@ -97,14 +97,42 @@ const Chat = () => {
     }, 500);
   };
 
+  const generateChatTitle = (userMessages: string[]) => {
+    const firstMessage = userMessages[0]?.toLowerCase() || "";
+    
+    // Generate meaningful titles based on keywords
+    if (firstMessage.includes("headache") || firstMessage.includes("migraine")) {
+      return "Headaches and pain management";
+    } else if (firstMessage.includes("hot flash") || firstMessage.includes("sweating")) {
+      return "Hot flashes and temperature changes";
+    } else if (firstMessage.includes("sleep") || firstMessage.includes("insomnia")) {
+      return "Sleep issues and fatigue";
+    } else if (firstMessage.includes("mood") || firstMessage.includes("anxious") || firstMessage.includes("depressed")) {
+      return "Mood changes and emotional wellness";
+    } else if (firstMessage.includes("period") || firstMessage.includes("cycle") || firstMessage.includes("irregular")) {
+      return "Menstrual cycle changes";
+    } else if (firstMessage.includes("weight") || firstMessage.includes("metabolism")) {
+      return "Weight and metabolism concerns";
+    } else if (firstMessage.includes("brain fog") || firstMessage.includes("memory") || firstMessage.includes("concentration")) {
+      return "Cognitive changes and brain fog";
+    } else if (firstMessage.includes("joint") || firstMessage.includes("aches") || firstMessage.includes("stiff")) {
+      return "Joint pain and body aches";
+    } else {
+      return "Perimenopause symptoms discussion";
+    }
+  };
+
   const handleSaveConversation = () => {
     if (messages.length > 1) {
-      const firstUserMessage = messages.find(m => m.sender === "user")?.content || "New conversation";
+      const userMessages = messages.filter(m => m.sender === "user").map(m => m.content);
+      const firstUserMessage = userMessages[0] || "New conversation";
+      const chatTitle = generateChatTitle(userMessages);
+      
       const newChat = {
         id: Date.now(),
-        title: `Today - ${firstUserMessage.substring(0, 50)}${firstUserMessage.length > 50 ? "..." : ""}`,
+        title: chatTitle,
         date: "Today",
-        preview: firstUserMessage.substring(0, 50),
+        preview: firstUserMessage.substring(0, 80),
         messages: [...messages]
       };
       setSavedChats(prev => [newChat, ...prev]);
@@ -215,22 +243,30 @@ const Chat = () => {
                           filteredChats.map((chat) => (
                             <Card 
                               key={chat.id} 
-                              className="p-3 hover:bg-accent cursor-pointer"
+                              className="p-4 hover:bg-accent cursor-pointer relative"
                               onClick={() => handleLoadChat(chat)}
                             >
-                              <div className="flex justify-between items-start">
-                                <div className="flex-1">
-                                  <p className="text-sm font-medium text-foreground mb-1">
-                                    {chat.date}
-                                  </p>
-                                  <p className="text-xs text-muted-foreground line-clamp-2">
-                                    {chat.preview}
-                                  </p>
+                              <div className="flex justify-between items-start mb-3">
+                                <h3 className="text-sm font-medium text-foreground leading-tight pr-8">
+                                  {chat.title}
+                                </h3>
+                                <div className="absolute top-3 right-3 flex gap-1">
+                                  <div className="w-1 h-1 bg-muted-foreground/60 rounded-full"></div>
+                                  <div className="w-1 h-1 bg-muted-foreground/60 rounded-full"></div>
+                                  <div className="w-1 h-1 bg-muted-foreground/60 rounded-full"></div>
                                 </div>
+                              </div>
+                              <p className="text-xs text-muted-foreground line-clamp-2 mb-3">
+                                {chat.preview}
+                              </p>
+                              <div className="flex items-center justify-between">
+                                <p className="text-xs text-muted-foreground">
+                                  📅 {chat.date}
+                                </p>
                                 <Button
                                   variant="ghost"
                                   size="sm"
-                                  className="h-6 w-6 p-0 hover:bg-destructive hover:text-destructive-foreground"
+                                  className="h-6 w-6 p-0 opacity-0 group-hover:opacity-100 hover:bg-destructive hover:text-destructive-foreground transition-opacity"
                                   onClick={(e) => {
                                     e.stopPropagation();
                                     handleDeleteChat(chat.id);
