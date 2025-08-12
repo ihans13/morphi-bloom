@@ -79,6 +79,11 @@ const Chat = () => {
     setSavedChats(prev => prev.filter(chat => chat.id !== chatId));
   };
 
+  const handleLoadChat = (chat: typeof savedChats[0]) => {
+    setMessages(chat.messages);
+    setShowHistorySheet(false);
+  };
+
   const filteredChats = savedChats.filter(chat => 
     chat.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
     chat.preview.toLowerCase().includes(searchQuery.toLowerCase())
@@ -140,7 +145,11 @@ const Chat = () => {
                           </p>
                         ) : (
                           filteredChats.map((chat) => (
-                            <Card key={chat.id} className="p-3 hover:bg-accent cursor-pointer">
+                            <Card 
+                              key={chat.id} 
+                              className="p-3 hover:bg-accent cursor-pointer"
+                              onClick={() => handleLoadChat(chat)}
+                            >
                               <div className="flex justify-between items-start">
                                 <div className="flex-1">
                                   <p className="text-sm font-medium text-foreground mb-1">
