@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -38,18 +38,26 @@ const Chat = () => {
   const [showHistorySheet, setShowHistorySheet] = useState(false);
   const [showAboutDialog, setShowAboutDialog] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [savedChats, setSavedChats] = useState([
-    {
-      id: "1",
-      title: "Headaches and pain management",
-      date: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
-      preview: "You were experiencing headaches, hot flashes and we spoke about treatment options.",
-      messages: [],
-      createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000)
-    }
-  ]);
+  const [savedChats, setSavedChats] = useState([]);
   
   const { toast } = useToast();
+
+  // Load saved chats from localStorage on component mount
+  useEffect(() => {
+    const loadSavedChats = () => {
+      try {
+        const stored = localStorage.getItem("morphi_chat_history");
+        if (stored) {
+          const parsedChats = JSON.parse(stored);
+          setSavedChats(parsedChats);
+        }
+      } catch (error) {
+        console.error("Error loading saved chats:", error);
+      }
+    };
+    
+    loadSavedChats();
+  }, []);
 
   const handleSendMessage = () => {
     if (!message.trim()) return;
@@ -185,7 +193,19 @@ const Chat = () => {
         messages: [...messages],
         createdAt: chatDate
       };
-      setSavedChats(prev => [newChat, ...prev]);
+      
+      // Update state
+      setSavedChats(prev => {
+        const updatedChats = [newChat, ...prev];
+        // Also save to localStorage
+        try {
+          localStorage.setItem("morphi_chat_history", JSON.stringify(updatedChats));
+        } catch (error) {
+          console.error("Error saving chat to localStorage:", error);
+        }
+        return updatedChats;
+      });
+      
       toast({
         title: "Conversation saved!",
         description: "You can find it in your chat history anytime.",
@@ -222,7 +242,16 @@ const Chat = () => {
   };
 
   const handleDeleteChat = (chatId: string) => {
-    setSavedChats(prev => prev.filter(chat => chat.id !== chatId));
+    setSavedChats(prev => {
+      const updatedChats = prev.filter(chat => chat.id !== chatId);
+      // Also remove from localStorage
+      try {
+        localStorage.setItem("morphi_chat_history", JSON.stringify(updatedChats));
+      } catch (error) {
+        console.error("Error updating localStorage:", error);
+      }
+      return updatedChats;
+    });
   };
 
   const handleLoadChat = (chat: typeof savedChats[0]) => {
