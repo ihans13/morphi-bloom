@@ -293,28 +293,13 @@ const Chat = () => {
                           filteredChats.map((chat) => (
                             <Card 
                               key={chat.id} 
-                              className="p-4 hover:bg-accent cursor-pointer relative"
+                              className="p-4 hover:bg-accent cursor-pointer"
                               onClick={() => navigate(`/chat/transcript/${chat.id}`)}
                             >
                               <div className="flex justify-between items-start mb-3">
-                                <h3 className="text-sm font-medium text-foreground leading-tight pr-8">
+                                <h3 className="text-sm font-medium text-foreground leading-tight">
                                   {chat.title}
                                 </h3>
-                                <Button
-                                  variant="ghost"
-                                  size="sm"
-                                  className="h-6 w-6 p-0 hover:bg-accent absolute top-2 right-2"
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    handleDeleteChat(chat.id);
-                                    toast({
-                                      title: "Chat deleted",
-                                      description: "The conversation has been removed from your history.",
-                                    });
-                                  }}
-                                >
-                                  <MoreVertical size={14} className="text-muted-foreground" />
-                                </Button>
                               </div>
                               <p className="text-xs text-muted-foreground line-clamp-2 mb-3">
                                 {chat.preview}

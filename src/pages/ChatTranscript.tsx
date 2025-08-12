@@ -2,7 +2,9 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { ArrowLeft } from "lucide-react";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import { ArrowLeft, Trash2 } from "lucide-react";
+import { toast } from "@/components/ui/use-toast";
 
 interface Message {
   id: string;
@@ -23,6 +25,7 @@ const ChatTranscript = () => {
   const { chatId } = useParams<{ chatId: string }>();
   const navigate = useNavigate();
   const [chat, setChat] = useState<SavedChat | null>(null);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
   useEffect(() => {
     if (!chatId) return;
@@ -40,6 +43,23 @@ const ChatTranscript = () => {
   }, [chatId, navigate]);
 
   const handleBack = () => {
+    navigate("/chat");
+  };
+
+  const handleDeleteChat = () => {
+    if (!chat) return;
+    
+    // Remove from localStorage
+    const savedChats = JSON.parse(localStorage.getItem("morphi_chat_history") || "[]");
+    const updatedChats = savedChats.filter((c: SavedChat) => c.id !== chat.id);
+    localStorage.setItem("morphi_chat_history", JSON.stringify(updatedChats));
+    
+    toast({
+      title: "Chat deleted",
+      description: "The conversation has been removed from your history.",
+    });
+    
+    // Navigate back to chat
     navigate("/chat");
   };
 
@@ -82,6 +102,27 @@ const ChatTranscript = () => {
               {formatDate(chat.date)}
             </p>
           </div>
+          <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+            <AlertDialogTrigger asChild>
+              <Button variant="ghost" size="sm" className="text-destructive hover:text-destructive">
+                <Trash2 className="h-4 w-4" />
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Delete Chat</AlertDialogTitle>
+                <AlertDialogDescription>
+                  Are you sure you want to delete this conversation? This action cannot be undone.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={handleDeleteChat} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+                  Delete
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </div>
       </div>
 
