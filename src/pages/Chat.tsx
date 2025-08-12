@@ -40,9 +40,10 @@ const Chat = () => {
     {
       id: 1,
       title: "Headaches and pain management",
-      date: "Today",
-      preview: "I have severe headaches and hot flashes that are affecting my daily life...",
-      messages: []
+      date: "2 days ago",
+      preview: "You were experiencing headaches, hot flashes and we spoke about treatment options.",
+      messages: [],
+      createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000)
     }
   ]);
   
@@ -122,18 +123,65 @@ const Chat = () => {
     }
   };
 
+  const generateMorphiSummary = (chatMessages: any[]) => {
+    const userMessages = chatMessages.filter(m => m.sender === "user").map(m => m.content);
+    const symptoms: string[] = [];
+    const topics: string[] = [];
+    
+    const allUserText = userMessages.join(" ").toLowerCase();
+    
+    // Extract symptoms
+    if (allUserText.includes("headache") || allUserText.includes("migraine")) symptoms.push("headaches");
+    if (allUserText.includes("hot flash") || allUserText.includes("sweating")) symptoms.push("hot flashes");
+    if (allUserText.includes("sleep") || allUserText.includes("insomnia")) symptoms.push("sleep issues");
+    if (allUserText.includes("mood") || allUserText.includes("anxious") || allUserText.includes("depressed")) symptoms.push("mood changes");
+    if (allUserText.includes("period") || allUserText.includes("cycle")) symptoms.push("menstrual changes");
+    if (allUserText.includes("weight") || allUserText.includes("metabolism")) symptoms.push("weight concerns");
+    if (allUserText.includes("brain fog") || allUserText.includes("memory")) symptoms.push("brain fog");
+    if (allUserText.includes("joint") || allUserText.includes("aches")) symptoms.push("joint pain");
+    
+    // Extract topics
+    if (allUserText.includes("work") || allUserText.includes("job")) topics.push("work impacts");
+    if (allUserText.includes("family") || allUserText.includes("relationship")) topics.push("family relationships");
+    if (allUserText.includes("treatment") || allUserText.includes("medication")) topics.push("treatment options");
+    if (allUserText.includes("exercise") || allUserText.includes("diet")) topics.push("lifestyle changes");
+    
+    const symptomsText = symptoms.length > 0 ? symptoms.join(", ") : "various symptoms";
+    const topicsText = topics.length > 0 ? ` and we spoke about ${topics.join(", ")}` : "";
+    
+    return `You were experiencing ${symptomsText}${topicsText}.`;
+  };
+
+  const formatChatDate = (date: Date) => {
+    const now = new Date();
+    const diffTime = Math.abs(now.getTime() - date.getTime());
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    
+    if (diffDays === 1) return "Today";
+    if (diffDays === 2) return "Yesterday";
+    if (diffDays <= 7) return `${diffDays - 1} days ago`;
+    
+    return date.toLocaleDateString('en-US', { 
+      month: 'short', 
+      day: 'numeric',
+      year: date.getFullYear() !== now.getFullYear() ? 'numeric' : undefined
+    });
+  };
+
   const handleSaveConversation = () => {
     if (messages.length > 1) {
       const userMessages = messages.filter(m => m.sender === "user").map(m => m.content);
-      const firstUserMessage = userMessages[0] || "New conversation";
       const chatTitle = generateChatTitle(userMessages);
+      const morphiSummary = generateMorphiSummary(messages);
+      const chatDate = new Date();
       
       const newChat = {
         id: Date.now(),
         title: chatTitle,
-        date: "Today",
-        preview: firstUserMessage.substring(0, 80),
-        messages: [...messages]
+        date: formatChatDate(chatDate),
+        preview: morphiSummary,
+        messages: [...messages],
+        createdAt: chatDate
       };
       setSavedChats(prev => [newChat, ...prev]);
       toast({
@@ -250,30 +298,29 @@ const Chat = () => {
                                 <h3 className="text-sm font-medium text-foreground leading-tight pr-8">
                                   {chat.title}
                                 </h3>
-                                <div className="absolute top-3 right-3 flex gap-1">
-                                  <div className="w-1 h-1 bg-muted-foreground/60 rounded-full"></div>
-                                  <div className="w-1 h-1 bg-muted-foreground/60 rounded-full"></div>
-                                  <div className="w-1 h-1 bg-muted-foreground/60 rounded-full"></div>
-                                </div>
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  className="h-6 w-6 p-0 hover:bg-accent absolute top-2 right-2"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleDeleteChat(chat.id);
+                                    toast({
+                                      title: "Chat deleted",
+                                      description: "The conversation has been removed from your history.",
+                                    });
+                                  }}
+                                >
+                                  <MoreVertical size={14} className="text-muted-foreground" />
+                                </Button>
                               </div>
                               <p className="text-xs text-muted-foreground line-clamp-2 mb-3">
                                 {chat.preview}
                               </p>
-                              <div className="flex items-center justify-between">
+                              <div className="flex items-center justify-start">
                                 <p className="text-xs text-muted-foreground">
                                   📅 {chat.date}
                                 </p>
-                                <Button
-                                  variant="ghost"
-                                  size="sm"
-                                  className="h-6 w-6 p-0 opacity-0 group-hover:opacity-100 hover:bg-destructive hover:text-destructive-foreground transition-opacity"
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    handleDeleteChat(chat.id);
-                                  }}
-                                >
-                                  <Trash2 size={12} />
-                                </Button>
                               </div>
                             </Card>
                           ))
