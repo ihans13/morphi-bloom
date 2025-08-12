@@ -7,6 +7,8 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Send, Sparkles, X, MoreVertical, History, Info, Search, Trash2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useConversationState, type Resource } from "@/hooks/useConversationState";
+import { ResourceList } from "@/components/ui/resource-tile";
 
 const Chat = () => {
   const [message, setMessage] = useState("");
@@ -14,10 +16,22 @@ const Chat = () => {
     {
       id: 1,
       sender: "morphi",
-      content: "Hi! I'm Morphi, your perimenopause companion. I'm here to help you understand your symptoms and navigate this journey. How are you feeling today?",
-      timestamp: new Date()
+      content: "Hi! I'm Morphi, your perimenopause companion. I'm here to listen, help you understand your symptoms and navigate this journey. How are you feeling today?",
+      timestamp: new Date(),
+      resources: undefined,
+      showMoreVisible: false
     }
   ]);
+  const [showMoreStates, setShowMoreStates] = useState<Record<number, boolean>>({});
+  const [pinnedResources, setPinnedResources] = useState<string[]>([]);
+  
+  const { 
+    state: conversationState, 
+    processMessage, 
+    confirmResourceInterest, 
+    continueConversation,
+    offerTracking 
+  } = useConversationState();
   const [showExitDialog, setShowExitDialog] = useState(false);
   const [showHistorySheet, setShowHistorySheet] = useState(false);
   const [showAboutDialog, setShowAboutDialog] = useState(false);
@@ -37,13 +51,50 @@ const Chat = () => {
   const handleSendMessage = () => {
     if (!message.trim()) return;
     
-    setMessages(prev => [...prev, {
-      id: Date.now(),
-      sender: "user",
-      content: message,
-      timestamp: new Date()
-    }]);
+    const userMessage = message;
     setMessage("");
+    
+    // Add user message
+    const userMsgId = Date.now();
+    setMessages(prev => [...prev, {
+      id: userMsgId,
+      sender: "user",
+      content: userMessage,
+      timestamp: new Date(),
+      resources: undefined,
+      showMoreVisible: false
+    }]);
+    
+    // Process message and get bot response
+    setTimeout(() => {
+      if (userMessage.toLowerCase().includes('yes') && conversationState.step === 'resource_introduction') {
+        // User confirmed interest in resources
+        const resources = confirmResourceInterest();
+        const botMsgId = Date.now() + 1;
+        
+        setMessages(prev => [...prev, {
+          id: botMsgId,
+          sender: "morphi",
+          content: "Here's the most relevant resource based on what you've shared:",
+          timestamp: new Date(),
+          resources: resources,
+          showMoreVisible: false
+        }]);
+      } else {
+        // Regular conversation flow
+        const botResponse = processMessage(userMessage);
+        const botMsgId = Date.now() + 1;
+        
+        setMessages(prev => [...prev, {
+          id: botMsgId,
+          sender: "morphi", 
+          content: botResponse,
+          timestamp: new Date(),
+          resources: undefined,
+          showMoreVisible: false
+        }]);
+      }
+    }, 500);
   };
 
   const handleSaveConversation = () => {
@@ -69,10 +120,27 @@ const Chat = () => {
     setMessages([{
       id: 1,
       sender: "morphi",
-      content: "Hi! I'm Morphi, your perimenopause companion. I'm here to help you understand your symptoms and navigate this journey. How are you feeling today?",
-      timestamp: new Date()
+      content: "Hi! I'm Morphi, your perimenopause companion. I'm here to listen, help you understand your symptoms and navigate this journey. How are you feeling today?",
+      timestamp: new Date(),
+      resources: undefined,
+      showMoreVisible: false
     }]);
     setShowExitDialog(false);
+  };
+
+  const handlePinResource = (resourceId: string) => {
+    setPinnedResources(prev => 
+      prev.includes(resourceId) 
+        ? prev.filter(id => id !== resourceId)
+        : [...prev, resourceId]
+    );
+  };
+
+  const handleShowMoreToggle = (messageId: number) => {
+    setShowMoreStates(prev => ({
+      ...prev,
+      [messageId]: !prev[messageId]
+    }));
   };
 
   const handleDeleteChat = (chatId: number) => {
@@ -233,6 +301,18 @@ const Chat = () => {
                 </div>
               )}
               <p className="text-sm">{msg.content}</p>
+              
+              {msg.resources && (
+                <div className="mt-3">
+                  <ResourceList
+                    resources={msg.resources}
+                    onPin={handlePinResource}
+                    pinnedResources={pinnedResources}
+                    showMore={showMoreStates[msg.id] || false}
+                    onShowMoreToggle={() => handleShowMoreToggle(msg.id)}
+                  />
+                </div>
+              )}
             </Card>
           </div>
         ))}
