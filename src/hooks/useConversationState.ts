@@ -127,27 +127,44 @@ export const useConversationState = () => {
         return "That sounds challenging and it's completely understandable to feel uncertain when your body is changing. Thank you for sharing this with me. I'd love to learn more about what you're experiencing.";
       
       case 'initial_validation':
-      case 'active_listening':
-        let response = '';
+        let validationResponse = '';
         
-        // Validation
+        // Validation with research reference
         if (symptoms.length > 0) {
-          response += `Feeling confused about what's happening is so normal - many women experience this uncertainty. According to Morphus research, ${symptoms[0]} affects about 75% of women during perimenopause. `;
+          const symptomStats = {
+            'hot flashes': '75%',
+            'headaches': '60%', 
+            'mood changes': '70%',
+            'sleep issues': '65%',
+            'irregular periods': '80%'
+          };
+          
+          const stat = symptomStats[symptoms[0] as keyof typeof symptomStats] || '65%';
+          validationResponse += `Feeling confused about what's happening is so normal - many women experience this uncertainty. According to Morphus research, ${symptoms[0]} affects about ${stat} of women during perimenopause. `;
         }
         
-        // Reflection
-        response += `It sounds like you're going through quite a lot right now. `;
+        validationResponse += `It sounds like you're going through quite a lot right now. You mentioned ${symptoms.length > 0 ? symptoms[0] : 'these changes'} - anything else you've noticed changing around that time?`;
         
-        // Follow-up question
+        return validationResponse;
+        
+      case 'active_listening':
+        let listeningResponse = "Thank you for sharing more details with me. ";
+        
+        // Reflect back what they've shared
+        if (symptoms.length > 1) {
+          listeningResponse += `I'm hearing that you're dealing with ${symptoms.slice(0, 2).join(' and ')}, which can be really overwhelming. `;
+        }
+        
+        // Ask deeper follow-up
         if (symptoms.includes('hot flashes')) {
-          response += "You mentioned hot flashes - have you noticed if they happen at certain times of day or month?";
+          listeningResponse += "With the hot flashes specifically - have you noticed if they happen at certain times of day or month?";
         } else if (symptoms.includes('headaches')) {
-          response += "You mentioned headaches - how long have you been experiencing these?";
+          listeningResponse += "Regarding the headaches - how long have you been experiencing these, and are they different from headaches you've had before?";
         } else {
-          response += "Can you tell me more about how these changes are affecting your daily life?";
+          listeningResponse += "Can you tell me more about how these changes are affecting your daily routine or work?";
         }
         
-        return response;
+        return listeningResponse;
       
       case 'symptom_gathering':
         const questions = [
@@ -186,8 +203,11 @@ export const useConversationState = () => {
       nextStep = 'initial_validation';
     } else if (state.step === 'initial_validation') {
       nextStep = 'active_listening';
-    } else if (state.step === 'active_listening' && newExchangeCount >= 2) {
+    } else if (state.step === 'active_listening') {
       nextStep = 'symptom_gathering';
+    } else if (state.step === 'symptom_gathering' && newExchangeCount >= 3) {
+      nextStep = 'resource_introduction';
+      readyForResources = true;
     }
     
     // Update state
