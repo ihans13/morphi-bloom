@@ -1,30 +1,23 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { Send, Sparkles, X, MoreVertical, History, Info, Search, Trash2, ChevronDown } from "lucide-react";
+import { Send, Sparkles, X, MoreVertical, History, Info, Search, Trash2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { ConversationMessage, Resource, ConversationStage } from "@/lib/conversationTypes";
-import { useConversationState } from "@/hooks/useConversationState";
-import { ResourceTile } from "@/components/ResourceTile";
-import { useResources } from "@/contexts/ResourceContext";
 
 const Chat = () => {
   const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState<ConversationMessage[]>([
+  const [messages, setMessages] = useState([
     {
       id: 1,
       sender: "morphi",
-      content: "Hi! I'm Morphi, your perimenopause companion. I'm here to listen, help you understand your symptoms and navigate this journey. How are you feeling today?",
-      timestamp: new Date(),
-      stage: ConversationStage.INITIATION
+      content: "Hi! I'm Morphi, your perimenopause companion. I'm here to help you understand your symptoms and navigate this journey. How are you feeling today?",
+      timestamp: new Date()
     }
   ]);
-  const [showResources, setShowResources] = useState(false);
-  const [expandedResources, setExpandedResources] = useState(false);
   const [showExitDialog, setShowExitDialog] = useState(false);
   const [showHistorySheet, setShowHistorySheet] = useState(false);
   const [showAboutDialog, setShowAboutDialog] = useState(false);
@@ -40,70 +33,17 @@ const Chat = () => {
   ]);
   
   const { toast } = useToast();
-  const { 
-    stage, 
-    userContext, 
-    updateUserContext, 
-    generateMorphiResponse, 
-    getRelevantResources,
-    checkTransitionTriggers,
-    setStage 
-  } = useConversationState();
-  const { pinResource, unpinResource, isPinned } = useResources();
 
   const handleSendMessage = () => {
     if (!message.trim()) return;
     
-    const userMessage: ConversationMessage = {
+    setMessages(prev => [...prev, {
       id: Date.now(),
       sender: "user",
       content: message,
-      timestamp: new Date(),
-      stage: stage
-    };
-    
-    setMessages(prev => [...prev, userMessage]);
-    
-    // Analyze user message and update context
-    const analysis = updateUserContext(message);
-    
-    // Check for transition triggers
-    const hasTransitionTrigger = checkTransitionTriggers(message);
-    if (hasTransitionTrigger && userContext.meaningfulExchanges >= 3) {
-      setStage(ConversationStage.RESOURCE_INTRO);
-    }
-    
+      timestamp: new Date()
+    }]);
     setMessage("");
-    
-    // Generate AI response after a short delay
-    setTimeout(() => {
-      let morphiResponse = generateMorphiResponse(message, analysis);
-      let resources: Resource[] = [];
-      
-      // Handle resource introduction stage
-      if (stage === ConversationStage.RESOURCE_INTRO || hasTransitionTrigger) {
-        morphiResponse = `Based on what you've shared about your experiences, I've found some resources that have helped other women with similar symptoms. Would you like me to share some suggestions you could explore?`;
-        setStage(ConversationStage.RESOURCE_PRESENTATION);
-      }
-      
-      // Handle resource presentation
-      if (stage === ConversationStage.RESOURCE_PRESENTATION && message.toLowerCase().includes('yes')) {
-        resources = getRelevantResources(message, 3);
-        morphiResponse = "Here's the most relevant resource I found for you:";
-        setShowResources(true);
-      }
-      
-      const morphiMessage: ConversationMessage = {
-        id: Date.now() + 1,
-        sender: "morphi",
-        content: morphiResponse,
-        timestamp: new Date(),
-        stage: stage,
-        resources: resources.length > 0 ? resources : undefined
-      };
-      
-      setMessages(prev => [...prev, morphiMessage]);
-    }, 1000);
   };
 
   const handleSaveConversation = () => {
@@ -129,13 +69,10 @@ const Chat = () => {
     setMessages([{
       id: 1,
       sender: "morphi",
-      content: "Hi! I'm Morphi, your perimenopause companion. I'm here to listen, help you understand your symptoms and navigate this journey. How are you feeling today?",
-      timestamp: new Date(),
-      stage: ConversationStage.INITIATION
+      content: "Hi! I'm Morphi, your perimenopause companion. I'm here to help you understand your symptoms and navigate this journey. How are you feeling today?",
+      timestamp: new Date()
     }]);
     setShowExitDialog(false);
-    setShowResources(false);
-    setExpandedResources(false);
   };
 
   const handleDeleteChat = (chatId: number) => {
@@ -146,22 +83,6 @@ const Chat = () => {
     chat.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
     chat.preview.toLowerCase().includes(searchQuery.toLowerCase())
   );
-
-  const handlePinResource = (resource: Resource) => {
-    if (isPinned(resource.id)) {
-      unpinResource(resource.id);
-      toast({
-        title: "Resource unpinned",
-        description: "Removed from your saved resources",
-      });
-    } else {
-      pinResource(resource);
-      toast({
-        title: "Resource pinned!",
-        description: "Added to your saved resources",
-      });
-    }
-  };
 
   return (
     <div className="flex flex-col h-[calc(100vh-5rem)] max-w-md mx-auto">
@@ -303,54 +224,6 @@ const Chat = () => {
                 </div>
               )}
               <p className="text-sm">{msg.content}</p>
-              
-              {/* Resources Display */}
-              {msg.resources && msg.resources.length > 0 && (
-                <div className="mt-4 space-y-3">
-                  {/* Most Relevant Resource */}
-                  <ResourceTile 
-                    resource={{...msg.resources[0], isPinned: isPinned(msg.resources[0].id)}}
-                    onPin={handlePinResource}
-                  />
-                  
-                  {/* Show More Button */}
-                  {msg.resources.length > 1 && (
-                    <div className="space-y-3">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => setExpandedResources(!expandedResources)}
-                        className="w-full"
-                      >
-                        {expandedResources ? 'Show Less' : 'Show More'}
-                        <ChevronDown 
-                          size={16} 
-                          className={`ml-2 transition-transform ${expandedResources ? 'rotate-180' : ''}`} 
-                        />
-                      </Button>
-                      
-                      {/* Additional Resources */}
-                      {expandedResources && (
-                        <div className="space-y-2">
-                          {msg.resources.slice(1).map((resource) => (
-                            <ResourceTile 
-                              key={resource.id}
-                              resource={{...resource, isPinned: isPinned(resource.id)}}
-                              onPin={handlePinResource}
-                            />
-                          ))}
-                        </div>
-                      )}
-                      
-                      {!expandedResources && (
-                        <p className="text-xs text-muted-foreground text-center">
-                          If these don't seem relevant to what you're looking for, share more and Morphi will look for other things that might help
-                        </p>
-                      )}
-                    </div>
-                  )}
-                </div>
-              )}
             </Card>
           </div>
         ))}

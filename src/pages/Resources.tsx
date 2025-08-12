@@ -1,56 +1,56 @@
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { BookOpen, Pill, MessageCircle, CheckCircle } from "lucide-react";
-import { useResources } from "@/contexts/ResourceContext";
-import { ResourceTile } from "@/components/ResourceTile";
 
 const Resources = () => {
-  const { pinnedResources, unpinResource } = useResources();
-  
-  const categorizeResources = () => {
-    const categories = {
-      articles: pinnedResources.filter(r => r.category === "articles"),
-      supplements: pinnedResources.filter(r => r.category === "supplements"), 
-      qna: pinnedResources.filter(r => r.category === "qna"),
-      tried: pinnedResources.filter(r => r.category === "tried")
-    };
-    return categories;
-  };
-  
-  const categorizedResources = categorizeResources();
-  
-  const categoryConfigs = [
+  const categories = [
     {
       id: "articles",
       title: "Articles & Podcasts",
       icon: BookOpen,
-      count: categorizedResources.articles.length,
+      count: 12,
       color: "bg-gradient-primary",
-      resources: categorizedResources.articles
+      items: [
+        "Understanding Perimenopause Stages",
+        "Nutrition During Hormonal Changes",
+        "The Menopause Doctor Podcast"
+      ]
     },
     {
       id: "supplements",
       title: "Supplements & Products",
       icon: Pill,
-      count: categorizedResources.supplements.length,
+      count: 8,
       color: "bg-accent",
-      resources: categorizedResources.supplements
+      items: [
+        "Evening Primrose Oil",
+        "Magnesium for Sleep",
+        "Cooling Pillow"
+      ]
     },
     {
       id: "qna",
       title: "Helpful Q&A Posts",
       icon: MessageCircle,
-      count: categorizedResources.qna.length,
+      count: 5,
       color: "bg-secondary",
-      resources: categorizedResources.qna
+      items: [
+        "Managing Hot Flashes at Work",
+        "Sleep Strategies That Work",
+        "Explaining Symptoms to Family"
+      ]
     },
     {
       id: "tried",
       title: "Tried and Tested",
       icon: CheckCircle,
-      count: categorizedResources.tried.length,
+      count: 6,
       color: "bg-muted",
-      resources: categorizedResources.tried
+      items: [
+        "Yoga for Hormone Balance",
+        "Mediterranean Diet Plan",
+        "Mindfulness App"
+      ]
     }
   ];
 
@@ -66,7 +66,7 @@ const Resources = () => {
 
       {/* Categories */}
       <div className="grid grid-cols-2 gap-4">
-        {categoryConfigs.map((category) => {
+        {categories.map((category) => {
           const Icon = category.icon;
           return (
             <Card key={category.id} className="p-4 hover:shadow-warm transition-shadow cursor-pointer">
@@ -91,31 +91,31 @@ const Resources = () => {
         })}
       </div>
 
-      {/* Pinned Resources */}
-      {pinnedResources.length > 0 && (
-        <div className="space-y-4">
-          <h2 className="text-lg font-semibold text-foreground">Recently Saved</h2>
-          
-          <div className="space-y-3">
-            {pinnedResources.slice(0, 5).map((resource) => (
-              <ResourceTile 
-                key={resource.id}
-                resource={resource}
-                onPin={() => unpinResource(resource.id)}
-                showPinButton={false}
-              />
-            ))}
-          </div>
-        </div>
-      )}
-      
-      {pinnedResources.length === 0 && (
-        <div className="text-center py-8">
-          <p className="text-muted-foreground text-sm">
-            No saved resources yet. Start a conversation with Morphi to discover helpful resources!
-          </p>
-        </div>
-      )}
+      {/* Recent Items */}
+      <div className="space-y-4">
+        <h2 className="text-lg font-semibold text-foreground">Recently Saved</h2>
+        
+        {categories.map((category) => (
+          <Card key={`recent-${category.id}`} className="p-4">
+            <div className="flex items-start gap-3">
+              <div className={`w-8 h-8 rounded-lg ${category.color} flex items-center justify-center`}>
+                <category.icon 
+                  size={16} 
+                  className={category.id === "articles" ? "text-primary-foreground" : "text-foreground"}
+                />
+              </div>
+              <div className="flex-1">
+                <h4 className="font-medium text-sm text-foreground">
+                  {category.items[0]}
+                </h4>
+                <p className="text-xs text-muted-foreground mt-1">
+                  From {category.title}
+                </p>
+              </div>
+            </div>
+          </Card>
+        ))}
+      </div>
     </div>
   );
 };
