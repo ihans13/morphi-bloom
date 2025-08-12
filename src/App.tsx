@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { BottomNavigation } from "@/components/layout/BottomNavigation";
 import Index from "./pages/Index";
 import Chat from "./pages/Chat";
+import ChatTranscript from "./pages/ChatTranscript";
 import Logging from "./pages/Logging";
 import Community from "./pages/Community";
 import Resources from "./pages/Resources";
@@ -23,6 +24,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/chat" element={<Chat />} />
+            <Route path="/chat/transcript/:chatId" element={<ChatTranscript />} />
             <Route path="/logging" element={<Logging />} />
             <Route path="/community" element={<Community />} />
             <Route path="/resources" element={<Resources />} />

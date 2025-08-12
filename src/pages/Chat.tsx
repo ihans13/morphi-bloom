@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
@@ -11,6 +12,7 @@ import { useConversationState, type Resource } from "@/hooks/useConversationStat
 import { ResourceList } from "@/components/ui/resource-tile";
 
 const Chat = () => {
+  const navigate = useNavigate();
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([
     {
@@ -38,9 +40,9 @@ const Chat = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [savedChats, setSavedChats] = useState([
     {
-      id: 1,
+      id: "1",
       title: "Headaches and pain management",
-      date: "2 days ago",
+      date: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
       preview: "You were experiencing headaches, hot flashes and we spoke about treatment options.",
       messages: [],
       createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000)
@@ -176,9 +178,9 @@ const Chat = () => {
       const chatDate = new Date();
       
       const newChat = {
-        id: Date.now(),
+        id: Date.now().toString(),
         title: chatTitle,
-        date: formatChatDate(chatDate),
+        date: chatDate.toISOString(),
         preview: morphiSummary,
         messages: [...messages],
         createdAt: chatDate
@@ -219,7 +221,7 @@ const Chat = () => {
     }));
   };
 
-  const handleDeleteChat = (chatId: number) => {
+  const handleDeleteChat = (chatId: string) => {
     setSavedChats(prev => prev.filter(chat => chat.id !== chatId));
   };
 
@@ -292,7 +294,7 @@ const Chat = () => {
                             <Card 
                               key={chat.id} 
                               className="p-4 hover:bg-accent cursor-pointer relative"
-                              onClick={() => handleLoadChat(chat)}
+                              onClick={() => navigate(`/chat/transcript/${chat.id}`)}
                             >
                               <div className="flex justify-between items-start mb-3">
                                 <h3 className="text-sm font-medium text-foreground leading-tight pr-8">
@@ -317,11 +319,15 @@ const Chat = () => {
                               <p className="text-xs text-muted-foreground line-clamp-2 mb-3">
                                 {chat.preview}
                               </p>
-                              <div className="flex items-center justify-start">
-                                <p className="text-xs text-muted-foreground">
-                                  📅 {chat.date}
-                                </p>
-                              </div>
+                               <div className="flex items-center justify-start">
+                                 <p className="text-xs text-muted-foreground">
+                                   📅 {new Date(chat.date).toLocaleDateString('en-US', {
+                                     month: 'short',
+                                     day: 'numeric',
+                                     year: 'numeric'
+                                   })}
+                                 </p>
+                               </div>
                             </Card>
                           ))
                         )}
