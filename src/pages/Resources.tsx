@@ -1,6 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 import { 
   BookOpen, 
   Pill, 
@@ -15,34 +16,40 @@ import {
 } from "lucide-react";
 
 const Resources = () => {
+  const navigate = useNavigate();
+  
   const myResourcesCategories = [
     {
       id: "articles",
       title: "Saved Articles & Podcasts",
       icon: BookOpen,
       count: 12,
-      color: "bg-gradient-primary"
+      color: "bg-gradient-primary",
+      path: "/resources/articles"
     },
     {
       id: "supplements",
       title: "Supplements & Products",
       icon: Pill,
       count: 8,
-      color: "bg-gradient-secondary"
+      color: "bg-gradient-secondary",
+      path: "/resources/supplements"
     },
     {
       id: "qna",
       title: "Q&A Posts",
       icon: MessageCircle,
       count: 5,
-      color: "bg-accent/80"
+      color: "bg-accent/80",
+      path: "/resources/qna"
     },
     {
       id: "tried",
       title: "Tried and Tested",
       icon: CheckCircle,
       count: 6,
-      color: "bg-secondary/80"
+      color: "bg-secondary/80",
+      path: "/resources/tried"
     }
   ];
 
@@ -98,7 +105,11 @@ const Resources = () => {
           {myResourcesCategories.map((category) => {
             const Icon = category.icon;
             return (
-              <Card key={category.id} className="p-4 hover:shadow-warm transition-shadow cursor-pointer">
+              <Card 
+                key={category.id} 
+                className="p-4 hover:shadow-warm transition-shadow cursor-pointer"
+                onClick={() => navigate(category.path)}
+              >
                 <div className="text-center space-y-3">
                   <div className={`mx-auto w-12 h-12 rounded-full ${category.color} flex items-center justify-center shadow-lg`}>
                     <Icon 

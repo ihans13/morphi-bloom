@@ -10,6 +10,10 @@ import ChatTranscript from "./pages/ChatTranscript";
 import Logging from "./pages/Logging";
 import Community from "./pages/Community";
 import Resources from "./pages/Resources";
+import SavedArticles from "./pages/SavedArticles";
+import Supplements from "./pages/Supplements";
+import QnAPosts from "./pages/QnAPosts";
+import TriedTested from "./pages/TriedTested";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -28,6 +32,10 @@ const App = () => (
             <Route path="/logging" element={<Logging />} />
             <Route path="/community" element={<Community />} />
             <Route path="/resources" element={<Resources />} />
+            <Route path="/resources/articles" element={<SavedArticles />} />
+            <Route path="/resources/supplements" element={<Supplements />} />
+            <Route path="/resources/qna" element={<QnAPosts />} />
+            <Route path="/resources/tried" element={<TriedTested />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <BottomNavigation />
