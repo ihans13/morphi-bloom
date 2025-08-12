@@ -114,16 +114,13 @@ export const useConversationState = () => {
         }
       }
       
-      // Enhanced completion detection based on content richness and readiness signals
+      // Content-based completion detection (no rigid exchange limits)
       const hasRichContext = Object.values(newContext).some(arr => 
         Array.isArray(arr) && arr.length >= 2
       );
       const hasReadinessSignals = analysis.readinessSignals.length > 0;
       
-      newContext.gatheringComplete = 
-        (newContext.meaningfulExchanges >= 3 && hasRichContext) || 
-        (newContext.meaningfulExchanges >= 5) ||
-        hasReadinessSignals;
+      newContext.gatheringComplete = hasRichContext || hasReadinessSignals;
       
       return newContext;
     });
@@ -134,14 +131,12 @@ export const useConversationState = () => {
   const generateMorphiResponse = useCallback((userMessage: string, analysis: ReturnType<typeof analyzeUserMessage>) => {
     const { category, isMeaningful, emotionalIndicators, readinessSignals } = analysis;
     
-    // Enhanced stage progression with smoother transitions
+    // Natural stage progression based on content and signals
     if (stage === ConversationStage.INITIATION && isMeaningful) {
       setStage(ConversationStage.VALIDATION);
-    } else if (stage === ConversationStage.VALIDATION && analysis.emotionalIndicators.length > 0) {
+    } else if (stage === ConversationStage.VALIDATION && (analysis.emotionalIndicators.length > 0 || category)) {
       setStage(ConversationStage.ACTIVE_LISTENING);
-    } else if (stage === ConversationStage.VALIDATION && userContext.meaningfulExchanges >= 2) {
-      setStage(ConversationStage.ACTIVE_LISTENING);
-    } else if (stage === ConversationStage.ACTIVE_LISTENING && (userContext.meaningfulExchanges >= 2 || category === 'symptoms')) {
+    } else if (stage === ConversationStage.ACTIVE_LISTENING && (category === 'symptoms' || userContext.symptoms.length > 0)) {
       setStage(ConversationStage.SYMPTOM_GATHERING);
     } else if (stage === ConversationStage.SYMPTOM_GATHERING && (userContext.gatheringComplete || readinessSignals.length > 0)) {
       setStage(ConversationStage.TRANSITION_TRIGGERS);
@@ -189,9 +184,13 @@ export const useConversationState = () => {
       "That sounds really challenging, and it's completely understandable to feel uncertain when your body is changing.",
       "Thank you for sharing this with me - what you're experiencing is so valid.",
       "I hear how this must be affecting you. You're not alone in feeling this way.",
-      "It takes courage to talk about these changes. I'm here to listen and support you.",
       "What you're describing resonates with so many women going through similar experiences.",
-      "I appreciate you opening up about this. Your feelings and experiences matter."
+      "I appreciate you opening up about this. Your feelings and experiences matter.",
+      "That takes courage to share, and I'm grateful you trust me with this.",
+      "Your experience is important, and I want to understand it better.",
+      "What you're going through sounds really significant.",
+      "I can sense how much this has been weighing on you.",
+      "Thank you for being so open with me about this."
     ];
     
     if (indicators.includes('anxiety')) {
@@ -262,8 +261,19 @@ export const useConversationState = () => {
   };
 
   const getInitialResponse = (tone: string) => {
-    if (tone === 'anxious') return "I'm here to listen and help you make sense of what you're experiencing. You're in a safe space to share whatever is on your mind.";
-    return "I'm here to listen and support you. Tell me more about what you're experiencing.";
+    const responses = [
+      "Tell me more about what you're experiencing.",
+      "What's been on your mind lately?",
+      "I'd love to hear more about what's going on.",
+      "What brings you here today?",
+      "How can I help you today?"
+    ];
+    
+    if (tone === 'anxious') {
+      return "I'm here to listen and help you make sense of what you're experiencing. You're in a safe space to share whatever is on your mind.";
+    }
+    
+    return responses[Math.floor(Math.random() * responses.length)];
   };
 
   const getRelevantResources = useCallback((userMessage: string, count: number = 1): Resource[] => {
