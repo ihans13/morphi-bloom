@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { Home, MessageCircle, FileText, Users, BookOpen } from "lucide-react";
+import { Home, MessageCircle, FileText, Users, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const navigationItems = [
@@ -29,8 +29,8 @@ const navigationItems = [
   },
   { 
     id: "resources", 
-    label: "Saved", 
-    icon: BookOpen, 
+    label: "Me", 
+    icon: User, 
     path: "/resources" 
   }
 ];
