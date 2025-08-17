@@ -1,88 +1,43 @@
 import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { 
-  BookOpen, 
-  Pill, 
-  MessageCircle, 
-  CheckCircle, 
   User, 
   Settings, 
-  Bell, 
-  Shield, 
   LogOut,
-  Camera
+  Camera,
+  Plus,
+  Search,
+  Folder
 } from "lucide-react";
 
 const Resources = () => {
   const navigate = useNavigate();
-  
-  const myResourcesCategories = [
-    {
-      id: "articles",
-      title: "Saved Articles & Podcasts",
-      icon: BookOpen,
-      count: 12,
-      color: "bg-gradient-primary",
-      path: "/resources/articles"
-    },
-    {
-      id: "supplements",
-      title: "Supplements & Products",
-      icon: Pill,
-      count: 8,
-      color: "bg-gradient-secondary",
-      path: "/resources/supplements"
-    },
-    {
-      id: "qna",
-      title: "Q&A Posts",
-      icon: MessageCircle,
-      count: 5,
-      color: "bg-accent/80",
-      path: "/resources/qna"
-    },
-    {
-      id: "tried",
-      title: "Tried and Tested",
-      icon: CheckCircle,
-      count: 6,
-      color: "bg-secondary/80",
-      path: "/resources/tried"
-    }
-  ];
+  const [folders, setFolders] = useState([
+    { id: 'all-clippings', name: 'All clippings', itemCount: 12 }
+  ]);
+  const [newFolderName, setNewFolderName] = useState('');
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const accountSettings = [
-    {
-      id: "notifications",
-      title: "Notifications",
-      description: "Manage your alerts and reminders",
-      icon: Bell
-    },
-    {
-      id: "privacy",
-      title: "Privacy & Security",
-      description: "Control your data and account security",
-      icon: Shield
-    },
-    {
-      id: "preferences",
-      title: "App Preferences",
-      description: "Customize your experience",
-      icon: Settings
-    },
-    {
-      id: "logout",
-      title: "Sign Out",
-      description: "Log out of your account",
-      icon: LogOut
+  const handleCreateFolder = () => {
+    if (newFolderName.trim()) {
+      const newFolder = {
+        id: `folder-${Date.now()}`,
+        name: newFolderName.trim(),
+        itemCount: 0
+      };
+      setFolders([...folders, newFolder]);
+      setNewFolderName('');
+      setIsDialogOpen(false);
     }
-  ];
+  };
 
   return (
     <div 
-      className="max-w-md mx-auto p-4 space-y-6 min-h-screen relative"
+      className="max-w-md mx-auto p-4 space-y-6 min-h-screen relative pb-20"
       style={{
         backgroundImage: `url('/lovable-uploads/9cc76a1c-07f0-433c-b92e-f8ba3a6b0e05.png')`,
         backgroundSize: 'cover',
@@ -93,91 +48,99 @@ const Resources = () => {
       {/* Profile Section */}
       <div className="text-center space-y-4">
         <div className="relative inline-block">
-          <div className="w-20 h-20 bg-gradient-to-br from-primary/20 to-accent/20 rounded-full border-2 border-border flex items-center justify-center">
-            <User size={32} className="text-muted-foreground" />
+          <div className="w-16 h-16 bg-card rounded-full border border-border flex items-center justify-center">
+            <User size={24} className="text-muted-foreground" />
           </div>
-          <Button variant="icon" size="icon" className="absolute -bottom-1 -right-1 w-8 h-8">
-            <Camera size={14} />
+        </div>
+        
+        {/* Action Buttons */}
+        <div className="flex gap-2 justify-center">
+          <Button variant="outline" size="sm" className="text-xs">
+            Edit Profile
+          </Button>
+          <Button variant="outline" size="sm" className="text-xs">
+            <Settings size={14} className="mr-1" />
+            App Settings
+          </Button>
+          <Button variant="outline" size="sm" className="text-xs text-destructive border-destructive hover:bg-destructive/10">
+            <LogOut size={14} className="mr-1" />
+            Log Out
           </Button>
         </div>
-        <div>
-          <h1 className="text-xl font-bold text-foreground">My Profile</h1>
-          <p className="text-sm text-muted-foreground">Manage your resources and settings</p>
-        </div>
       </div>
 
-      {/* My Resources Section */}
+      <hr className="border-border" />
+
+      {/* My Scrapbook Section */}
       <div className="space-y-4">
-        <h2 className="text-lg font-semibold text-foreground">My Resources</h2>
-        <div className="grid grid-cols-2 gap-3">
-          {myResourcesCategories.map((category) => {
-            const Icon = category.icon;
-            return (
-              <Card 
-                key={category.id} 
-                className="p-4 hover:shadow-warm transition-shadow cursor-pointer"
-                onClick={() => navigate(category.path)}
-              >
-                <div className="text-center space-y-3">
-                  <div className={`mx-auto w-12 h-12 rounded-full ${category.color} flex items-center justify-center shadow-lg`}>
-                    <Icon 
-                      size={20} 
-                      className="text-foreground"
-                    />
-                  </div>
-                  <div>
-                    <h3 className="font-medium text-xs text-foreground leading-tight">
-                      {category.title}
-                    </h3>
-                    <Badge variant="secondary" className="mt-2 text-xs">
-                      {category.count}
-                    </Badge>
-                  </div>
+        <h2 className="text-lg font-semibold text-foreground">My Scrapbook</h2>
+        
+        {/* Search and Add Section */}
+        <div className="flex gap-2">
+          <div className="relative flex-1">
+            <Search size={16} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" />
+            <Input 
+              placeholder="Search your scrapbook" 
+              className="pl-9 text-sm"
+            />
+          </div>
+          
+          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+            <DialogTrigger asChild>
+              <Button variant="default" size="sm" className="px-3">
+                Add
+                <Plus size={16} className="ml-1" />
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-md">
+              <DialogHeader>
+                <DialogTitle>Create New Folder</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-4">
+                <Input
+                  placeholder="Folder name"
+                  value={newFolderName}
+                  onChange={(e) => setNewFolderName(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && handleCreateFolder()}
+                />
+                <div className="flex gap-2 justify-end">
+                  <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
+                    Cancel
+                  </Button>
+                  <Button onClick={handleCreateFolder}>
+                    Create
+                  </Button>
                 </div>
-              </Card>
-            );
-          })}
+              </div>
+            </DialogContent>
+          </Dialog>
         </div>
-      </div>
 
-      {/* Account Settings Section */}
-      <div className="space-y-4">
-        <h2 className="text-lg font-semibold text-foreground">Account Settings</h2>
-        <div className="space-y-2">
-          {accountSettings.map((setting) => {
-            const Icon = setting.icon;
-            return (
-              <Card 
-                key={setting.id} 
-                className={`p-4 hover:shadow-warm transition-shadow cursor-pointer ${
-                  setting.id === 'logout' ? 'hover:bg-destructive/5' : ''
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                    setting.id === 'logout' 
-                      ? 'bg-destructive/10' 
-                      : 'bg-accent/50'
-                  }`}>
-                    <Icon 
-                      size={16} 
-                      className={setting.id === 'logout' ? 'text-destructive' : 'text-foreground'}
-                    />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className={`font-medium text-sm ${
-                      setting.id === 'logout' ? 'text-destructive' : 'text-foreground'
-                    }`}>
-                      {setting.title}
-                    </h3>
-                    <p className="text-xs text-muted-foreground">
-                      {setting.description}
+        {/* Folders Grid */}
+        <div className={`grid gap-3 ${folders.length === 1 ? 'grid-cols-1' : 'grid-cols-2'}`}>
+          {folders.map((folder) => (
+            <Card 
+              key={folder.id} 
+              className="aspect-square p-4 cursor-pointer hover:shadow-md transition-shadow bg-muted/50"
+              onClick={() => navigate(`/resources/folder/${folder.id}`)}
+            >
+              <div className="h-full flex flex-col">
+                <div className="flex-1 flex items-center justify-center">
+                  <Folder size={32} className="text-muted-foreground" />
+                </div>
+                <div className="text-center">
+                  <h3 className="font-medium text-sm text-foreground truncate">
+                    {folder.name}
+                  </h3>
+                  {folder.itemCount > 0 && (
+                    <p className="text-xs text-muted-foreground mt-1">
+                      {folder.itemCount} items
                     </p>
-                  </div>
+                  )}
                 </div>
-              </Card>
-            );
-          })}
+              </div>
+            </Card>
+          ))}
         </div>
       </div>
     </div>
