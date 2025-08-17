@@ -50,7 +50,7 @@ const Resources = () => {
 
   return (
     <div 
-      className="max-w-md mx-auto p-4 space-y-6 h-full relative"
+      className="max-w-md mx-auto p-4 space-y-6 h-screen relative"
       style={{
         backgroundImage: `url('/lovable-uploads/9cc76a1c-07f0-433c-b92e-f8ba3a6b0e05.png')`,
         backgroundSize: 'cover',
