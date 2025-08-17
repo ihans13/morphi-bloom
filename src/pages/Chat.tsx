@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Send, MoreHorizontal, X } from "lucide-react";
+import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
+import { Send, MoreHorizontal, X, History, Info } from "lucide-react";
 
 const Chat = () => {
   const [message, setMessage] = useState("");
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const [messages, setMessages] = useState([
     {
       id: 1,
@@ -58,9 +60,33 @@ const Chat = () => {
       <div className="relative z-10 p-4 text-center">
         <div className="max-w-md mx-auto">
           <div className="flex justify-between items-center mb-3 pt-3">
-            <Button variant="ghost" size="sm" className="bg-[#39403B]/80 text-white hover:bg-[#39403B]/90 rounded-full w-10 h-10 p-0">
-              <MoreHorizontal size={20} />
-            </Button>
+            <Drawer open={drawerOpen} onOpenChange={setDrawerOpen}>
+              <DrawerTrigger asChild>
+                <Button variant="ghost" size="sm" className="bg-[#39403B]/80 text-white hover:bg-[#39403B]/90 rounded-full w-10 h-10 p-0">
+                  <MoreHorizontal size={20} />
+                </Button>
+              </DrawerTrigger>
+              <DrawerContent className="bg-white rounded-t-2xl p-6">
+                <div className="space-y-4">
+                  <Button 
+                    variant="ghost" 
+                    className="w-full justify-start text-[#39403B] hover:bg-gray-100 py-6 text-base font-medium"
+                    onClick={() => setDrawerOpen(false)}
+                  >
+                    <History className="w-5 h-5 mr-3" />
+                    Chat history
+                  </Button>
+                  <Button 
+                    variant="ghost" 
+                    className="w-full justify-start text-[#39403B] hover:bg-gray-100 py-6 text-base font-medium"
+                    onClick={() => setDrawerOpen(false)}
+                  >
+                    <Info className="w-5 h-5 mr-3" />
+                    About Morphi
+                  </Button>
+                </div>
+              </DrawerContent>
+            </Drawer>
             
             {/* Morphi Avatar */}
             <div className="w-16 h-16 rounded-full bg-gradient-to-br from-orange-400 to-yellow-400 flex items-center justify-center text-2xl">
