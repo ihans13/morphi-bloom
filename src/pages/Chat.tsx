@@ -21,6 +21,8 @@ interface Message {
     title: string;
     subtitle: string;
     relevanceScore: number;
+    url?: string;
+    thumbnail?: string;
   }>;
   symptoms?: string[];
 }
@@ -57,7 +59,9 @@ const Chat = () => {
       type: 'podcast' as const,
       title: 'The Psychological Effects of Perimenopause & Menopause with Dr. Bev Young',
       subtitle: 'Podcast by Morphus | Menopause Reimagined (12:34 - 18:20)',
-      relevanceScore: 95
+      relevanceScore: 95,
+      url: 'https://youtu.be/dF-zsHshB0U',
+      thumbnail: '/lovable-uploads/d25237f8-bc96-4240-be0e-fad6761f7743.png'
     },
     {
       id: '2',

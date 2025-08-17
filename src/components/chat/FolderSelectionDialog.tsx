@@ -78,7 +78,7 @@ const FolderSelectionDialog: React.FC<FolderSelectionDialogProps> = ({
             <Button 
               onClick={handleSave} 
               disabled={!selectedFolder}
-              className="bg-[#39403B] hover:bg-[#39403B]/90"
+              className="bg-[#39403B] hover:bg-[#39403B]/90 text-white"
             >
               Save
             </Button>

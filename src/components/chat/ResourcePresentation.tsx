@@ -10,6 +10,7 @@ interface Resource {
   subtitle: string;
   thumbnail?: string;
   relevanceScore: number;
+  url?: string;
 }
 
 interface ResourcePresentationProps {
@@ -33,8 +34,9 @@ const ResourcePresentation: React.FC<ResourcePresentationProps> = ({
   const additionalResources = sortedResources.slice(1, 3);
 
   const handleResourceClick = (resource: Resource) => {
-    // Handle resource click - could open in new tab or show details
-    console.log('Resource clicked:', resource);
+    if (resource.url) {
+      window.open(resource.url, '_blank');
+    }
   };
 
   return (

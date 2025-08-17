@@ -12,6 +12,7 @@ interface ResourceTileProps {
   isPinned?: boolean;
   onPin?: (id: string) => void;
   onClick?: () => void;
+  url?: string;
 }
 
 const ResourceTile: React.FC<ResourceTileProps> = ({
@@ -22,7 +23,8 @@ const ResourceTile: React.FC<ResourceTileProps> = ({
   thumbnail,
   isPinned = false,
   onPin,
-  onClick
+  onClick,
+  url
 }) => {
   const getTypeIcon = () => {
     switch (type) {
