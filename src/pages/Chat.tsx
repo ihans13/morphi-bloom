@@ -7,6 +7,7 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { Send, MoreHorizontal, X, History, Info } from "lucide-react";
 import ResourcePresentation from "@/components/chat/ResourcePresentation";
+import FolderSelectionDialog from "@/components/chat/FolderSelectionDialog";
 
 interface Message {
   id: number;
@@ -36,6 +37,8 @@ const Chat = () => {
   const [userSymptoms, setUserSymptoms] = useState<string[]>([]);
   const [exchangeCount, setExchangeCount] = useState(0);
   const [pinnedResources, setPinnedResources] = useState<string[]>([]);
+  const [folderDialogOpen, setFolderDialogOpen] = useState(false);
+  const [selectedResourceForFolder, setSelectedResourceForFolder] = useState<{id: string, title: string} | null>(null);
   
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -176,18 +179,78 @@ const Chat = () => {
   };
 
   const handlePinResource = (resourceId: string) => {
-    setPinnedResources(prev => 
-      prev.includes(resourceId) 
-        ? prev.filter(id => id !== resourceId)
-        : [...prev, resourceId]
-    );
+    const isCurrentlyPinned = pinnedResources.includes(resourceId);
     
-    toast({
-      title: pinnedResources.includes(resourceId) ? "Resource unpinned" : "Resource pinned!",
-      description: pinnedResources.includes(resourceId) 
-        ? "Resource removed from your saved items" 
-        : "Resource saved for later reference"
-    });
+    if (isCurrentlyPinned) {
+      // Unpinning - just remove from pinned resources
+      setPinnedResources(prev => prev.filter(id => id !== resourceId));
+      toast({
+        title: "Resource unpinned",
+        description: "Resource removed from your saved items"
+      });
+    } else {
+      // Pinning - add to pinned resources and show folder selection
+      setPinnedResources(prev => [...prev, resourceId]);
+      
+      // Find the resource details from current messages
+      const resource = messages
+        .flatMap(msg => msg.resources || [])
+        .find(r => r.id === resourceId);
+      
+      if (resource) {
+        setSelectedResourceForFolder({
+          id: resourceId,
+          title: resource.title
+        });
+        setFolderDialogOpen(true);
+      }
+      
+      toast({
+        title: "Resource pinned!",
+        description: "Choose a folder to save this resource"
+      });
+    }
+  };
+
+  const handleSaveToFolder = (folderId: string) => {
+    if (!selectedResourceForFolder) return;
+
+    // Get current folders
+    const savedFolders = localStorage.getItem('scrapbook-folders');
+    const folders = savedFolders ? JSON.parse(savedFolders) : [
+      { id: 'all-clippings', name: 'All clippings', itemCount: 0 }
+    ];
+
+    // Get current folder resources
+    const folderResourcesKey = `folder-resources-${folderId}`;
+    const currentResources = JSON.parse(localStorage.getItem(folderResourcesKey) || '[]');
+
+    // Find the full resource data
+    const resource = messages
+      .flatMap(msg => msg.resources || [])
+      .find(r => r.id === selectedResourceForFolder.id);
+
+    if (resource && !currentResources.find((r: any) => r.id === resource.id)) {
+      // Add resource to folder
+      const updatedResources = [...currentResources, resource];
+      localStorage.setItem(folderResourcesKey, JSON.stringify(updatedResources));
+
+      // Update folder item count
+      const updatedFolders = folders.map((folder: any) => 
+        folder.id === folderId 
+          ? { ...folder, itemCount: updatedResources.length }
+          : folder
+      );
+      localStorage.setItem('scrapbook-folders', JSON.stringify(updatedFolders));
+
+      const folderName = folders.find((f: any) => f.id === folderId)?.name || 'folder';
+      toast({
+        title: "Resource saved!",
+        description: `"${selectedResourceForFolder.title}" saved to ${folderName}`
+      });
+    }
+
+    setSelectedResourceForFolder(null);
   };
 
   const handleSendMessage = () => {
@@ -451,6 +514,17 @@ const Chat = () => {
           </Button>
         </div>
       </div>
+
+      {/* Folder Selection Dialog */}
+      <FolderSelectionDialog
+        isOpen={folderDialogOpen}
+        onClose={() => {
+          setFolderDialogOpen(false);
+          setSelectedResourceForFolder(null);
+        }}
+        onSaveToFolder={handleSaveToFolder}
+        resourceTitle={selectedResourceForFolder?.title || ''}
+      />
     </div>
   );
 };
