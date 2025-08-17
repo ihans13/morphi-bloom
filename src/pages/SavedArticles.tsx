@@ -47,11 +47,11 @@ const SavedArticles = () => {
   ];
 
   return (
-    <div className="max-w-md mx-auto p-4 space-y-6">
+    <div className="max-w-md mx-auto p-4 space-y-6 bg-background min-h-screen">
       {/* Header */}
       <div className="flex items-center gap-3">
         <Button 
-          variant="ghost" 
+          variant="icon" 
           size="sm"
           onClick={() => navigate('/resources')}
           className="p-2"
@@ -81,7 +81,7 @@ const SavedArticles = () => {
                         {article.subtitle}
                       </p>
                     </div>
-                    <Button variant="ghost" size="sm" className="p-1 h-auto">
+                    <Button variant="icon" size="sm" className="p-1 h-auto">
                       <Pin size={14} className={article.isPinned ? "fill-current text-primary" : "text-muted-foreground"} />
                     </Button>
                   </div>
@@ -95,7 +95,7 @@ const SavedArticles = () => {
                         {article.duration}
                       </p>
                     </div>
-                    <Button variant="ghost" size="sm" className="p-1 h-auto">
+                    <Button variant="icon" size="sm" className="p-1 h-auto">
                       <ExternalLink size={14} className="text-muted-foreground" />
                     </Button>
                   </div>

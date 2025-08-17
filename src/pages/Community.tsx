@@ -110,7 +110,7 @@ const Community = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto p-4 space-y-6">
+    <div className="max-w-md mx-auto p-4 space-y-6 bg-background min-h-screen">
       {/* Header */}
       <div className="text-center">
         <h1 className="text-2xl font-bold text-foreground mb-2">Community Q&A</h1>
@@ -122,7 +122,8 @@ const Community = () => {
       {/* New Post Button */}
       <Button 
         onClick={() => setShowNewPost(!showNewPost)}
-        className="w-full bg-gradient-primary hover:shadow-glow transition-all duration-200"
+        variant="default"
+        className="w-full"
       >
         <Plus size={18} className="mr-2" />
         Ask a Question
@@ -138,7 +139,7 @@ const Community = () => {
           <div className="flex gap-2">
             <Button 
               size="sm" 
-              className="bg-gradient-primary hover:shadow-glow transition-all duration-200"
+              variant="default"
             >
               Post
             </Button>

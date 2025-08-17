@@ -81,16 +81,16 @@ const Resources = () => {
   ];
 
   return (
-    <div className="max-w-md mx-auto p-4 space-y-6">
+    <div className="max-w-md mx-auto p-4 space-y-6 bg-background min-h-screen">
       {/* Profile Section */}
       <div className="text-center space-y-4">
         <div className="relative inline-block">
           <div className="w-20 h-20 bg-gradient-to-br from-primary/20 to-accent/20 rounded-full border-2 border-border flex items-center justify-center">
             <User size={32} className="text-muted-foreground" />
           </div>
-          <button className="absolute -bottom-1 -right-1 w-8 h-8 bg-primary rounded-full flex items-center justify-center shadow-lg hover:bg-primary/90 transition-colors">
-            <Camera size={14} className="text-primary-foreground" />
-          </button>
+          <Button variant="icon" size="icon" className="absolute -bottom-1 -right-1 w-8 h-8">
+            <Camera size={14} />
+          </Button>
         </div>
         <div>
           <h1 className="text-xl font-bold text-foreground">My Profile</h1>
@@ -114,7 +114,7 @@ const Resources = () => {
                   <div className={`mx-auto w-12 h-12 rounded-full ${category.color} flex items-center justify-center shadow-lg`}>
                     <Icon 
                       size={20} 
-                      className="text-primary-foreground"
+                      className="text-foreground"
                     />
                   </div>
                   <div>

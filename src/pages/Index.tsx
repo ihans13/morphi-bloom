@@ -50,14 +50,14 @@ const Index = () => {
   ];
 
   return (
-    <div className="max-w-md mx-auto p-4 space-y-6">
+    <div className="max-w-md mx-auto p-4 space-y-6 bg-background min-h-screen">
       {/* Hero Section */}
-      <div className="text-center bg-gradient-hero rounded-2xl p-6 text-primary-foreground shadow-glow">
+      <div className="text-center bg-gradient-hero rounded-2xl p-6 text-foreground shadow-glow">
         <div className="flex items-center justify-center gap-2 mb-3">
-          <Heart className="text-primary-foreground" size={28} />
+          <Heart className="text-foreground" size={28} />
           <h1 className="text-2xl font-bold">Welcome</h1>
         </div>
-        <p className="text-primary-foreground/90 text-sm leading-relaxed">
+        <p className="text-foreground/80 text-sm leading-relaxed">
           Your personal companion for understanding and navigating perimenopause with confidence
         </p>
       </div>
@@ -66,7 +66,7 @@ const Index = () => {
       <div className="w-full h-48 bg-gradient-to-br from-accent/30 to-accent/10 rounded-xl border border-border flex items-center justify-center">
         <div className="text-center">
           <div className="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-2">
-            <Heart className="text-accent-foreground" size={24} />
+            <Heart className="text-foreground" size={24} />
           </div>
           <p className="text-sm text-muted-foreground">Image placeholder</p>
         </div>
@@ -82,7 +82,7 @@ const Index = () => {
           >
             <div className="flex items-start gap-4">
               <div className="w-12 h-12 rounded-full bg-gradient-primary flex items-center justify-center shadow-lg">
-                <BookOpen size={20} className="text-primary-foreground" />
+                <BookOpen size={20} className="text-foreground" />
               </div>
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-1">
@@ -114,7 +114,7 @@ const Index = () => {
           >
             <div className="flex items-start gap-3">
               <div className="w-10 h-10 rounded-full bg-gradient-secondary flex items-center justify-center">
-                <MessageCircle size={16} className="text-primary-foreground" />
+                <MessageCircle size={16} className="text-foreground" />
               </div>
               <div className="flex-1">
                 <h3 className="font-semibold text-foreground text-sm">{highlight.title}</h3>
@@ -129,10 +129,10 @@ const Index = () => {
           </Card>
         ))}
         <Button 
-          variant="outline" 
+          variant="default" 
           size="sm"
           onClick={() => navigate("/community")}
-          className="w-full hover:bg-accent"
+          className="w-full"
         >
           <Users size={16} className="mr-2" />
           Explore More Discussions

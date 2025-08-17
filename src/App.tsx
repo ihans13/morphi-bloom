@@ -11,6 +11,7 @@ import ChatHistory from "./pages/ChatHistory";
 import Logging from "./pages/Logging";
 import Community from "./pages/Community";
 import Resources from "./pages/Resources";
+import Track from "./pages/Track";
 import SavedArticles from "./pages/SavedArticles";
 import Supplements from "./pages/Supplements";
 import QnAPosts from "./pages/QnAPosts";
@@ -33,6 +34,7 @@ const AppContent = () => {
         <Route path="/logging" element={<Logging />} />
         <Route path="/community" element={<Community />} />
         <Route path="/resources" element={<Resources />} />
+        <Route path="/track" element={<Track />} />
         <Route path="/resources/articles" element={<SavedArticles />} />
         <Route path="/resources/supplements" element={<Supplements />} />
         <Route path="/resources/qna" element={<QnAPosts />} />
