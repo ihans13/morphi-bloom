@@ -11,12 +11,6 @@ const Chat = () => {
       sender: "morphi",
       content: "Hi Isha! I'm here to listen, help you understand your symptoms and navigate this journey. How are you doing today?",
       timestamp: new Date()
-    },
-    {
-      id: 2,
-      sender: "user",
-      content: "Hi Morphi! I've been experiencing some changes lately and I'm not sure if they're related to perimenopause.",
-      timestamp: new Date()
     }
   ]);
 
