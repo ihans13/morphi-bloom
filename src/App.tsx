@@ -37,7 +37,7 @@ const AppContent = () => {
         <Route path="/resources/tried" element={<TriedTested />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-      {!isChatPage && <BottomNavigation />}
+      <BottomNavigation />
     </div>
   );
 };

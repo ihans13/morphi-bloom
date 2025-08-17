@@ -83,7 +83,7 @@ const Chat = () => {
       </div>
 
       {/* Messages */}
-      <div className="flex-1 px-4 space-y-6 max-w-md mx-auto w-full" style={{ height: 'calc(100vh - 148px - 5rem)', overflowY: 'auto' }}>
+      <div className="flex-1 px-4 space-y-6 max-w-md mx-auto w-full" style={{ height: 'calc(100vh - 148px - 5rem - 90px)', overflowY: 'auto' }}>
         {messages.map((msg) => (
           <div key={msg.id} className="space-y-2">
             {/* Message Label */}
