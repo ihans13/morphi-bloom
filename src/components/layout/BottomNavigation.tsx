@@ -1,36 +1,35 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { Home, MessageCircle, FileText, Users, User } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { NavTab } from "@/components/ui/nav-tab";
 
 const navigationItems = [
   { 
     id: "home", 
     label: "Home", 
-    icon: Home, 
+    icon: "https://api.builder.io/api/v1/image/assets/556be626e37a450e8038ec05ad2116c3/429731f7ac7e5d03a28edbe559f744dcaa776b42?placeholderIfAbsent=true",
     path: "/" 
   },
   { 
     id: "chat", 
     label: "Morphi", 
-    icon: MessageCircle, 
+    icon: "https://api.builder.io/api/v1/image/assets/556be626e37a450e8038ec05ad2116c3/a6e5b61d9826a329640a5f2f1e3252d1a9e3a5dd?placeholderIfAbsent=true",
     path: "/chat" 
   },
   { 
     id: "logging", 
-    label: "Log", 
-    icon: FileText, 
+    label: "Track", 
+    icon: "https://api.builder.io/api/v1/image/assets/556be626e37a450e8038ec05ad2116c3/751c3d1aceb200d2402c061c2d03cddfdbe4384b?placeholderIfAbsent=true",
     path: "/logging" 
   },
   { 
     id: "community", 
-    label: "Q&A", 
-    icon: Users, 
+    label: "Community", 
+    icon: "https://api.builder.io/api/v1/image/assets/556be626e37a450e8038ec05ad2116c3/2a49763ea0948ddcd19c4326cc2b56d6fab82825?placeholderIfAbsent=true",
     path: "/community" 
   },
   { 
     id: "resources", 
     label: "Me", 
-    icon: User, 
+    icon: "https://api.builder.io/api/v1/image/assets/556be626e37a450e8038ec05ad2116c3/71b957805b1946c83d59bf3e9587cf730b851645?placeholderIfAbsent=true",
     path: "/resources" 
   }
 ];
@@ -40,40 +39,19 @@ export const BottomNavigation = () => {
   const navigate = useNavigate();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-card border-t border-border">
-      <div className="flex justify-around items-center py-2 px-4 max-w-md mx-auto">
+    <nav className="flex gap-5 justify-center items-center text-xs text-center whitespace-nowrap bg-white shadow-sm text-neutral-500 fixed bottom-0 left-0 right-0">
+      <div className="flex justify-around items-center py-2 px-4 max-w-md mx-auto w-full">
         {navigationItems.map((item) => {
-          const Icon = item.icon;
           const isActive = location.pathname === item.path;
           
           return (
-            <button
+            <NavTab
               key={item.id}
+              icon={item.icon}
+              label={item.label}
+              isActive={isActive}
               onClick={() => navigate(item.path)}
-              className={cn(
-                "flex flex-col items-center justify-center py-2 px-3 rounded-lg transition-all duration-200",
-                "hover:bg-accent/50 active:scale-95",
-                isActive 
-                  ? "text-primary bg-gradient-primary shadow-warm" 
-                  : "text-muted-foreground hover:text-foreground"
-              )}
-            >
-              <Icon 
-                size={20} 
-                className={cn(
-                  "mb-1 transition-colors",
-                  isActive && "text-primary-foreground"
-                )} 
-              />
-              <span 
-                className={cn(
-                  "text-xs font-medium",
-                  isActive && "text-primary-foreground"
-                )}
-              >
-                {item.label}
-              </span>
-            </button>
+            />
           );
         })}
       </div>
