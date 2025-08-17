@@ -52,7 +52,7 @@ const Chat = () => {
       }}
     >
       {/* Full Width Header Background */}
-      <div className="absolute inset-x-0 top-0 bg-white/40 shadow-lg backdrop-blur-sm" style={{ height: '200px' }}></div>
+      <div className="absolute inset-x-0 top-0 bg-white/40 shadow-lg backdrop-blur-sm" style={{ height: '148px' }}></div>
       
       {/* Header Content */}
       <div className="relative z-10 p-4 text-center">
@@ -83,7 +83,7 @@ const Chat = () => {
       </div>
 
       {/* Messages */}
-      <div className="flex-1 px-4 space-y-6 overflow-y-auto max-w-md mx-auto w-full">
+      <div className="flex-1 px-4 space-y-6 overflow-y-auto max-w-md mx-auto w-full pb-20">
         {messages.map((msg) => (
           <div key={msg.id} className="space-y-2">
             {/* Message Label */}
