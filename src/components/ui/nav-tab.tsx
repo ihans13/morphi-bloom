@@ -10,9 +10,9 @@ interface NavTabProps {
 export function NavTab({ icon, label, isActive = false, onClick }: NavTabProps) {
   return (
     <div 
-      className={`flex flex-col justify-center w-16 cursor-pointer transition-all duration-200 ${
+      className={`flex flex-col justify-center items-center w-16 h-full cursor-pointer transition-all duration-200 ${
         isActive 
-          ? 'font-bold scale-110' 
+          ? 'font-bold' 
           : 'hover:opacity-80'
       }`}
       style={{
@@ -23,7 +23,7 @@ export function NavTab({ icon, label, isActive = false, onClick }: NavTabProps) 
       <img
         src={icon}
         alt={`${label} icon`}
-        className="object-contain self-center w-6 aspect-square transition-all duration-200"
+        className="object-contain w-6 h-6 transition-all duration-200"
         style={{
           filter: isActive 
             ? 'brightness(0) saturate(100%) invert(60%) sepia(15%) saturate(1347%) hue-rotate(85deg) brightness(95%) contrast(89%)'

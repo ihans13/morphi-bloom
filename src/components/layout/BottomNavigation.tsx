@@ -40,8 +40,8 @@ export const BottomNavigation = () => {
 
   return (
     <>
-      <nav className="flex gap-5 justify-center items-center text-xs text-center whitespace-nowrap bg-white shadow-sm fixed bottom-0 left-0 right-0">
-        <div className="flex justify-around items-center px-4 max-w-md mx-auto w-full">
+      <nav className="flex justify-center items-center text-xs text-center whitespace-nowrap bg-white shadow-[0_-2px_8px_rgba(0,0,0,0.1)] fixed bottom-0 left-0 right-0 h-[58px]">
+        <div className="flex justify-around items-center px-4 max-w-md mx-auto w-full h-full">
           {navigationItems.map((item) => {
             const isActive = location.pathname === item.path;
             
@@ -58,7 +58,7 @@ export const BottomNavigation = () => {
         </div>
       </nav>
       {/* Safe space below navigation */}
-      <div className="h-6 bg-gray-300 fixed bottom-0 left-0 right-0 -z-10"></div>
+      <div className="h-8 bg-white fixed bottom-0 left-0 right-0 -z-10"></div>
     </>
   );
 };
