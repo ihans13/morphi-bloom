@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { 
   User, 
   Settings, 
@@ -22,6 +22,19 @@ const Resources = () => {
   const [newFolderName, setNewFolderName] = useState('');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
+  // Load folders from localStorage on mount
+  useEffect(() => {
+    const savedFolders = localStorage.getItem('scrapbook-folders');
+    if (savedFolders) {
+      setFolders(JSON.parse(savedFolders));
+    }
+  }, []);
+
+  // Save folders to localStorage whenever folders change
+  useEffect(() => {
+    localStorage.setItem('scrapbook-folders', JSON.stringify(folders));
+  }, [folders]);
+
   const handleCreateFolder = () => {
     if (newFolderName.trim()) {
       const newFolder = {
@@ -29,7 +42,7 @@ const Resources = () => {
         name: newFolderName.trim(),
         itemCount: 0
       };
-      setFolders([...folders, newFolder]);
+      setFolders(prev => [...prev, newFolder]);
       setNewFolderName('');
       setIsDialogOpen(false);
     }
@@ -87,9 +100,11 @@ const Resources = () => {
           
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
-              <Button variant="default" size="sm" className="px-3">
+              <Button 
+                className="bg-gray-700 hover:bg-gray-600 text-white border-0 rounded-lg px-4 py-2 text-sm font-medium flex items-center gap-2"
+              >
                 Add
-                <Plus size={16} className="ml-1" />
+                <Plus size={16} />
               </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-md">
