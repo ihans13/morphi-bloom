@@ -41,7 +41,7 @@ export const BottomNavigation = () => {
   return (
     <>
       <nav className="flex gap-5 justify-center items-center text-xs text-center whitespace-nowrap bg-white shadow-sm fixed bottom-0 left-0 right-0">
-        <div className="flex justify-around items-center py-2 px-4 max-w-md mx-auto w-full">
+        <div className="flex justify-around items-center px-4 max-w-md mx-auto w-full">
           {navigationItems.map((item) => {
             const isActive = location.pathname === item.path;
             

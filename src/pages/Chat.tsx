@@ -43,7 +43,7 @@ const Chat = () => {
 
   return (
     <div 
-      className="flex flex-col h-[calc(100vh-5rem)] max-w-md mx-auto"
+      className="flex flex-col h-[calc(100vh-5rem)] relative"
       style={{
         backgroundImage: `url('/lovable-uploads/b491f3f6-01f6-4b5b-b3e6-ed2e0d5124e9.png')`,
         backgroundSize: 'cover',
@@ -51,11 +51,13 @@ const Chat = () => {
         backgroundRepeat: 'no-repeat'
       }}
     >
-      {/* Header */}
-      <div className="p-4 text-center">
-        {/* Top Navigation with White Background */}
-        <div className="bg-white/40 rounded-2xl p-4 mb-6 shadow-lg backdrop-blur-sm">
-          <div className="flex justify-between items-center mb-6">
+      {/* Full Width Header Background */}
+      <div className="absolute inset-x-0 top-0 bg-white/40 shadow-lg backdrop-blur-sm" style={{ height: '200px' }}></div>
+      
+      {/* Header Content */}
+      <div className="relative z-10 p-4 text-center">
+        <div className="max-w-md mx-auto">
+          <div className="flex justify-between items-center mb-6 pt-4">
             <Button variant="ghost" size="sm" className="bg-[#39403B]/80 text-white hover:bg-[#39403B]/90 rounded-full w-10 h-10 p-0">
               <MoreHorizontal size={20} />
             </Button>
@@ -71,8 +73,8 @@ const Chat = () => {
           </div>
 
           {/* Title */}
-          <div>
-            <p className="text-gray-700 text-sm font-medium">
+          <div className="mb-8">
+            <p className="text-[#39403B] text-sm font-medium">
               I'm Morphi, your perimenopause<br />
               and menopause companion
             </p>
@@ -81,22 +83,22 @@ const Chat = () => {
       </div>
 
       {/* Messages */}
-      <div className="flex-1 px-4 space-y-6 overflow-y-auto">
+      <div className="flex-1 px-4 space-y-6 overflow-y-auto max-w-md mx-auto w-full">
         {messages.map((msg) => (
           <div key={msg.id} className="space-y-2">
             {/* Message Label */}
             <div className="flex items-center gap-2">
               <div className={`w-3 h-3 rounded-full ${
-                msg.sender === "morphi" ? "bg-gray-600" : "bg-orange-500"
+                msg.sender === "morphi" ? "bg-[#39403B]" : "bg-[#BD7A54]"
               }`}></div>
-              <span className="text-sm font-medium text-gray-700">
+              <span className="text-sm font-medium text-[#39403B]">
                 {msg.sender === "morphi" ? "Morphi" : "You"}
               </span>
             </div>
             
             {/* Message Content */}
             <div className="ml-5">
-              <p className="text-sm text-gray-700 leading-relaxed">
+              <p className="text-sm text-[#39403B] leading-relaxed">
                 {msg.content}
               </p>
             </div>
@@ -105,21 +107,21 @@ const Chat = () => {
       </div>
 
       {/* Input */}
-      <div className="p-4">
+      <div className="p-4 max-w-md mx-auto w-full">
         <div className="relative">
           <Input
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             placeholder="Share your thoughts here"
             onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
-            className="bg-white/80 backdrop-blur-sm border-gray-200 rounded-2xl pr-12 py-3 text-sm placeholder:text-gray-500"
+            className="bg-white/80 backdrop-blur-sm border-gray-200 rounded-2xl pr-12 py-3 text-sm placeholder:text-[#39403B]/60 text-[#39403B]"
           />
           <Button 
             onClick={handleSendMessage}
             disabled={!message.trim()}
             variant="ghost"
             size="sm"
-            className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 p-2"
+            className="absolute right-2 top-1/2 -translate-y-1/2 text-[#39403B]/60 hover:text-[#39403B] p-2"
           >
             <Send size={16} />
           </Button>
