@@ -53,28 +53,30 @@ const Chat = () => {
     >
       {/* Header */}
       <div className="p-4 text-center">
-        {/* Top Navigation */}
-        <div className="flex justify-between items-center mb-6">
-          <Button variant="ghost" size="sm" className="text-gray-600 hover:bg-white/20 rounded-full w-10 h-10 p-0">
-            <MoreHorizontal size={20} />
-          </Button>
-          
-          {/* Morphi Avatar */}
-          <div className="w-16 h-16 rounded-full bg-gradient-to-br from-orange-400 to-yellow-400 flex items-center justify-center text-2xl">
-            😊
+        {/* Top Navigation with White Background */}
+        <div className="bg-white/40 rounded-2xl p-4 mb-6 shadow-lg backdrop-blur-sm">
+          <div className="flex justify-between items-center mb-6">
+            <Button variant="ghost" size="sm" className="bg-[#39403B]/80 text-white hover:bg-[#39403B]/90 rounded-full w-10 h-10 p-0">
+              <MoreHorizontal size={20} />
+            </Button>
+            
+            {/* Morphi Avatar */}
+            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-orange-400 to-yellow-400 flex items-center justify-center text-2xl">
+              😊
+            </div>
+            
+            <Button variant="ghost" size="sm" className="bg-[#39403B]/80 text-white hover:bg-[#39403B]/90 rounded-full w-10 h-10 p-0">
+              <X size={20} />
+            </Button>
           </div>
-          
-          <Button variant="ghost" size="sm" className="text-gray-600 hover:bg-white/20 rounded-full w-10 h-10 p-0">
-            <X size={20} />
-          </Button>
-        </div>
 
-        {/* Title */}
-        <div className="mb-8">
-          <p className="text-gray-700 text-sm font-medium">
-            I'm Morphi, your perimenopause<br />
-            and menopause companion
-          </p>
+          {/* Title */}
+          <div>
+            <p className="text-gray-700 text-sm font-medium">
+              I'm Morphi, your perimenopause<br />
+              and menopause companion
+            </p>
+          </div>
         </div>
       </div>
 
