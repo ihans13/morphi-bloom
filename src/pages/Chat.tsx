@@ -43,7 +43,7 @@ const Chat = () => {
 
   return (
     <div 
-      className="flex flex-col h-screen relative"
+      className="flex flex-col h-[calc(100vh-5rem)] relative"
       style={{
         backgroundImage: `url('/lovable-uploads/b491f3f6-01f6-4b5b-b3e6-ed2e0d5124e9.png')`,
         backgroundSize: 'cover',
