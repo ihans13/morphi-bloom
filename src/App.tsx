@@ -7,6 +7,7 @@ import { BottomNavigation } from "@/components/layout/BottomNavigation";
 import Index from "./pages/Index";
 import Chat from "./pages/Chat";
 import ChatTranscript from "./pages/ChatTranscript";
+import ChatHistory from "./pages/ChatHistory";
 import Logging from "./pages/Logging";
 import Community from "./pages/Community";
 import Resources from "./pages/Resources";
@@ -27,6 +28,7 @@ const AppContent = () => {
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/chat" element={<Chat />} />
+        <Route path="/chat/history" element={<ChatHistory />} />
         <Route path="/chat/transcript/:chatId" element={<ChatTranscript />} />
         <Route path="/logging" element={<Logging />} />
         <Route path="/community" element={<Community />} />

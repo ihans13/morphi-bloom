@@ -1,13 +1,18 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { useToast } from "@/hooks/use-toast";
 import { Send, MoreHorizontal, X, History, Info } from "lucide-react";
 
 const Chat = () => {
+  const navigate = useNavigate();
+  const { toast } = useToast();
   const [message, setMessage] = useState("");
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [exitDialogOpen, setExitDialogOpen] = useState(false);
   const [messages, setMessages] = useState([
     {
       id: 1,
@@ -44,6 +49,80 @@ const Chat = () => {
     }, 1000);
   };
 
+  const generateChatTitle = (messages: any[]) => {
+    const userMessages = messages.filter(msg => msg.sender === "user");
+    if (userMessages.length > 0) {
+      const firstMessage = userMessages[0].content;
+      // Truncate and clean up the title
+      const title = firstMessage.length > 50 
+        ? firstMessage.substring(0, 50) + "..."
+        : firstMessage;
+      return title;
+    }
+    return "Chat with Morphi";
+  };
+
+  const generateChatSummary = (messages: any[]) => {
+    const userMessages = messages.filter(msg => msg.sender === "user");
+    if (userMessages.length === 0) return "Initial conversation with Morphi";
+    
+    if (userMessages.length === 1) {
+      return `Discussed: ${userMessages[0].content.substring(0, 100)}${userMessages[0].content.length > 100 ? "..." : ""}`;
+    }
+    
+    return `Conversation covering ${userMessages.length} topics including symptoms, experiences, and guidance from Morphi.`;
+  };
+
+  const handleSaveChat = () => {
+    if (messages.length <= 1) {
+      toast({
+        title: "Nothing to save",
+        description: "Start a conversation first before saving.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    const chatId = Date.now().toString();
+    const title = generateChatTitle(messages);
+    const summary = generateChatSummary(messages);
+    
+    const savedChat = {
+      id: chatId,
+      title,
+      summary,
+      date: new Date().toISOString(),
+      messages: messages.map(msg => ({
+        content: msg.content,
+        sender: msg.sender === "morphi" ? "bot" : msg.sender,
+        timestamp: msg.timestamp.toISOString()
+      }))
+    };
+
+    // Get existing chat history
+    const existingChats = JSON.parse(localStorage.getItem('chatHistory') || '[]');
+    const updatedChats = [savedChat, ...existingChats];
+    
+    // Save to localStorage
+    localStorage.setItem('chatHistory', JSON.stringify(updatedChats));
+    
+    toast({
+      title: "Chat saved!",
+      description: "Your conversation has been saved to chat history."
+    });
+    
+    setExitDialogOpen(false);
+  };
+
+  const handleExit = () => {
+    navigate('/');
+  };
+
+  const handleChatHistory = () => {
+    setDrawerOpen(false);
+    navigate('/chat/history');
+  };
+
   return (
     <div 
       className="flex flex-col h-screen relative"
@@ -72,7 +151,7 @@ const Chat = () => {
                   <Button 
                     variant="ghost" 
                     className="w-full justify-start text-[#39403B] hover:bg-gray-100 py-6 text-base font-medium"
-                    onClick={() => setDrawerOpen(false)}
+                    onClick={handleChatHistory}
                   >
                     <History className="w-5 h-5 mr-3" />
                     Chat history
@@ -94,7 +173,7 @@ const Chat = () => {
               😊
             </div>
             
-            <Dialog>
+            <Dialog open={exitDialogOpen} onOpenChange={setExitDialogOpen}>
               <DialogTrigger asChild>
                 <Button variant="ghost" size="sm" className="bg-[#39403B]/80 text-white hover:bg-[#39403B]/90 rounded-full w-10 h-10 p-0">
                   <X size={20} />
@@ -109,10 +188,17 @@ const Chat = () => {
                     You may save this chat to reference later or exit.
                   </p>
                   <div className="flex gap-3 pt-2">
-                    <Button variant="outline" className="flex-1 text-[#39403B] border-[#39403B]">
+                    <Button 
+                      variant="outline" 
+                      className="flex-1 text-[#39403B] border-[#39403B]"
+                      onClick={handleSaveChat}
+                    >
                       Save
                     </Button>
-                    <Button className="flex-1 bg-[#39403B] text-white hover:bg-[#39403B]/90">
+                    <Button 
+                      className="flex-1 bg-[#39403B] text-white hover:bg-[#39403B]/90"
+                      onClick={handleExit}
+                    >
                       Exit
                     </Button>
                   </div>
