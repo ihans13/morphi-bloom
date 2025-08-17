@@ -109,7 +109,7 @@ const Chat = () => {
       </div>
 
       {/* Messages */}
-      <div className="flex-1 px-4 space-y-6 max-w-md mx-auto w-full" style={{ height: 'calc(100vh - 160px - 5rem - 90px)', overflowY: 'auto' }}>
+      <div className="flex-1 px-4 space-y-6 max-w-md mx-auto w-full" style={{ height: 'calc(100vh - 160px - 5rem - 180px)', overflowY: 'auto' }}>
         {messages.map((msg) => (
           <div key={msg.id} className="space-y-2">
             {/* Message Label */}
@@ -133,7 +133,7 @@ const Chat = () => {
       </div>
 
       {/* Input */}
-      <div className="p-4 max-w-md mx-auto w-full">
+      <div className="p-4 max-w-md mx-auto w-full mb-[90px] relative z-20">
         <div className="relative">
           <Input
             value={message}
