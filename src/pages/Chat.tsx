@@ -11,12 +11,6 @@ const Chat = () => {
       sender: "morphi",
       content: "Hi Isha! I'm here to listen, help you understand your symptoms and navigate this journey. How are you doing today?",
       timestamp: new Date()
-    },
-    {
-      id: 2,
-      sender: "user",
-      content: "Hi Morphi! I've been experiencing some changes lately and I'm not sure if they're related to perimenopause.",
-      timestamp: new Date()
     }
   ]);
 
@@ -58,12 +52,12 @@ const Chat = () => {
       }}
     >
       {/* Full Width Header Background */}
-      <div className="absolute inset-x-0 top-0 bg-white/40 shadow-lg backdrop-blur-sm" style={{ height: '160px' }}></div>
+      <div className="absolute inset-x-0 top-0 bg-white/40 shadow-lg backdrop-blur-sm" style={{ height: '148px' }}></div>
       
       {/* Header Content */}
       <div className="relative z-10 p-4 text-center">
         <div className="max-w-md mx-auto">
-          <div className="flex justify-between items-center mb-3 pt-3">
+          <div className="flex justify-between items-center mb-6 pt-4">
             <Button variant="ghost" size="sm" className="bg-[#39403B]/80 text-white hover:bg-[#39403B]/90 rounded-full w-10 h-10 p-0">
               <MoreHorizontal size={20} />
             </Button>
@@ -79,7 +73,7 @@ const Chat = () => {
           </div>
 
           {/* Title */}
-          <div className="mb-4">
+          <div className="mb-8">
             <p className="text-[#39403B] text-sm font-medium">
               I'm Morphi, your perimenopause<br />
               and menopause companion
@@ -89,7 +83,7 @@ const Chat = () => {
       </div>
 
       {/* Messages */}
-      <div className="flex-1 px-4 space-y-6 max-w-md mx-auto w-full" style={{ height: 'calc(100vh - 160px - 5rem - 90px)', overflowY: 'auto' }}>
+      <div className="flex-1 px-4 space-y-6 max-w-md mx-auto w-full" style={{ height: 'calc(100vh - 148px - 5rem - 90px)', overflowY: 'auto' }}>
         {messages.map((msg) => (
           <div key={msg.id} className="space-y-2">
             {/* Message Label */}
