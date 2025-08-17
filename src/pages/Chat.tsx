@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Send, MoreHorizontal, X, History, Info } from "lucide-react";
 
 const Chat = () => {
@@ -93,9 +94,31 @@ const Chat = () => {
               😊
             </div>
             
-            <Button variant="ghost" size="sm" className="bg-[#39403B]/80 text-white hover:bg-[#39403B]/90 rounded-full w-10 h-10 p-0">
-              <X size={20} />
-            </Button>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant="ghost" size="sm" className="bg-[#39403B]/80 text-white hover:bg-[#39403B]/90 rounded-full w-10 h-10 p-0">
+                  <X size={20} />
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="bg-white rounded-lg p-6 max-w-sm mx-auto">
+                <div className="text-center space-y-4">
+                  <p className="text-[#39403B] text-base font-medium">
+                    Are you sure you don't want to talk more?
+                  </p>
+                  <p className="text-[#39403B] text-sm">
+                    You may save this chat to reference later or exit.
+                  </p>
+                  <div className="flex gap-3 pt-2">
+                    <Button variant="outline" className="flex-1 text-[#39403B] border-[#39403B]">
+                      Save
+                    </Button>
+                    <Button className="flex-1 bg-[#39403B] text-white hover:bg-[#39403B]/90">
+                      Exit
+                    </Button>
+                  </div>
+                </div>
+              </DialogContent>
+            </Dialog>
           </div>
 
           {/* Title */}
