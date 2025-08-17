@@ -6,6 +6,23 @@ import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { Send, MoreHorizontal, X, History, Info } from "lucide-react";
+import ResourcePresentation from "@/components/chat/ResourcePresentation";
+
+interface Message {
+  id: number;
+  sender: string;
+  content: string;
+  timestamp: Date;
+  hasResources: boolean;
+  resources?: Array<{
+    id: string;
+    type: 'podcast' | 'article' | 'product' | 'video';
+    title: string;
+    subtitle: string;
+    relevanceScore: number;
+  }>;
+  symptoms?: string[];
+}
 
 const Chat = () => {
   const navigate = useNavigate();
@@ -13,20 +30,172 @@ const Chat = () => {
   const [message, setMessage] = useState("");
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [exitDialogOpen, setExitDialogOpen] = useState(false);
-  const [messages, setMessages] = useState([
+  
+  // Conversation state management
+  const [conversationStage, setConversationStage] = useState<'initiation' | 'validation' | 'listening' | 'symptom_gathering' | 'resource_intro' | 'resource_presentation' | 'post_resource'>('initiation');
+  const [userSymptoms, setUserSymptoms] = useState<string[]>([]);
+  const [exchangeCount, setExchangeCount] = useState(0);
+  const [pinnedResources, setPinnedResources] = useState<string[]>([]);
+  
+  const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
       sender: "morphi",
-      content: "Hi Isha! I'm here to listen, help you understand your symptoms and navigate this journey. How are you doing today?",
-      timestamp: new Date()
+      content: "Hi! I'm Morphi, your perimenopause companion. I'm here to listen, help you understand your symptoms and navigate this journey. How are you feeling today?",
+      timestamp: new Date(),
+      hasResources: false
     }
   ]);
+
+  // Mock resources data
+  const mockResources = [
+    {
+      id: '1',
+      type: 'podcast' as const,
+      title: 'The Psychological Effects of Perimenopause & Menopause with Dr. Bev Young',
+      subtitle: 'Podcast by Morphus | Menopause Reimagined (12:34 - 18:20)',
+      relevanceScore: 95
+    },
+    {
+      id: '2',
+      type: 'article' as const,
+      title: 'Managing Hot Flashes Naturally',
+      subtitle: 'Article by Women\'s Health Collective (6 mins read)',
+      relevanceScore: 88
+    },
+    {
+      id: '3',
+      type: 'product' as const,
+      title: 'Magnesium Complex for Hormonal Balance',
+      subtitle: 'Product recommended by Dr. Sarah Johnson, MD',
+      relevanceScore: 76
+    }
+  ];
+
+  const getResponseBasedOnStage = (userMessage: string, stage: string): { content: string; newStage: string; hasResources: boolean } => {
+    const lowerMessage = userMessage.toLowerCase();
+    
+    // Check for transition triggers
+    const isReadyForResources = lowerMessage.includes('what should i do') || 
+                               lowerMessage.includes('what can help') || 
+                               lowerMessage.includes('need to figure this out') ||
+                               exchangeCount >= 4;
+
+    switch (stage) {
+      case 'initiation':
+        return {
+          content: "That sounds challenging and it's completely understandable to feel uncertain when your body is changing. Thank you for sharing this with me. I'd love to learn more about what you're experiencing.",
+          newStage: 'validation',
+          hasResources: false
+        };
+        
+      case 'validation':
+      case 'listening':
+        if (isReadyForResources) {
+          return {
+            content: `Based on what you've shared about your symptoms, I've found some resources that have helped other women with similar experiences. Would you like me to share some suggestions you could explore?`,
+            newStage: 'resource_intro',
+            hasResources: false
+          };
+        }
+        
+        // Extract potential symptoms from user message
+        const symptoms = extractSymptoms(userMessage);
+        setUserSymptoms(prev => [...new Set([...prev, ...symptoms])]);
+        
+        return {
+          content: `Feeling confused about what's happening is so normal - many women experience this uncertainty. According to our research, ${symptoms.length > 0 ? `symptoms like ${symptoms.join(', ')} are` : 'these experiences are'} very common during perimenopause. It sounds like you're dealing with some significant changes. Have you noticed if these symptoms happen at certain times of day or month?`,
+          newStage: 'symptom_gathering',
+          hasResources: false
+        };
+        
+      case 'symptom_gathering':
+        if (isReadyForResources) {
+          return {
+            content: `Based on what you've shared about ${userSymptoms.slice(0, 2).join(' and ')}, I've found some resources that have helped other women with similar experiences. Would you like me to share some suggestions you could explore?`,
+            newStage: 'resource_intro',
+            hasResources: false
+          };
+        }
+        
+        return {
+          content: `Thank you for sharing more details. How are these symptoms affecting your daily life? Have you been able to discuss these with a healthcare practitioner yet?`,
+          newStage: 'symptom_gathering',
+          hasResources: false
+        };
+        
+      case 'resource_intro':
+        if (lowerMessage.includes('yes') || lowerMessage.includes('sure') || lowerMessage.includes('okay')) {
+          return {
+            content: '',
+            newStage: 'resource_presentation',
+            hasResources: true
+          };
+        }
+        return {
+          content: "I understand. What would be most helpful for you right now?",
+          newStage: 'listening',
+          hasResources: false
+        };
+        
+      case 'resource_presentation':
+        return {
+          content: "Is there anything else that might be helpful? Would you like me to remind you to track how these suggestions work for you?",
+          newStage: 'post_resource',
+          hasResources: false
+        };
+        
+      default:
+        return {
+          content: "Thank you for sharing. I'm here to support you through your perimenopause journey. Tell me more about what you're experiencing.",
+          newStage: 'listening',
+          hasResources: false
+        };
+    }
+  };
+
+  const extractSymptoms = (message: string): string[] => {
+    const symptomKeywords = {
+      'hot flashes': ['hot flash', 'hot flush', 'heat wave', 'sweating'],
+      'sleep issues': ['sleep', 'insomnia', 'tired', 'exhausted'],
+      'mood changes': ['mood', 'anxiety', 'depression', 'irritable'],
+      'irregular periods': ['period', 'cycle', 'menstrual', 'bleeding'],
+      'brain fog': ['memory', 'focus', 'concentration', 'forgetful']
+    };
+    
+    const foundSymptoms: string[] = [];
+    const lowerMessage = message.toLowerCase();
+    
+    Object.entries(symptomKeywords).forEach(([symptom, keywords]) => {
+      if (keywords.some(keyword => lowerMessage.includes(keyword))) {
+        foundSymptoms.push(symptom);
+      }
+    });
+    
+    return foundSymptoms;
+  };
+
+  const handlePinResource = (resourceId: string) => {
+    setPinnedResources(prev => 
+      prev.includes(resourceId) 
+        ? prev.filter(id => id !== resourceId)
+        : [...prev, resourceId]
+    );
+    
+    toast({
+      title: pinnedResources.includes(resourceId) ? "Resource unpinned" : "Resource pinned!",
+      description: pinnedResources.includes(resourceId) 
+        ? "Resource removed from your saved items" 
+        : "Resource saved for later reference"
+    });
+  };
 
   const handleSendMessage = () => {
     if (!message.trim()) return;
     
     const userMessage = message;
     setMessage("");
+    setExchangeCount(prev => prev + 1);
     
     // Add user message
     const userMsgId = Date.now();
@@ -34,8 +203,13 @@ const Chat = () => {
       id: userMsgId,
       sender: "user",
       content: userMessage,
-      timestamp: new Date()
+      timestamp: new Date(),
+      hasResources: false
     }]);
+    
+    // Get bot response based on conversation stage
+    const response = getResponseBasedOnStage(userMessage, conversationStage);
+    setConversationStage(response.newStage as any);
     
     // Simulate bot response
     setTimeout(() => {
@@ -43,8 +217,11 @@ const Chat = () => {
       setMessages(prev => [...prev, {
         id: botMsgId,
         sender: "morphi",
-        content: "Thank you for sharing. I'm here to support you through your perimenopause journey. Tell me more about what you're experiencing.",
-        timestamp: new Date()
+        content: response.content,
+        timestamp: new Date(),
+        hasResources: response.hasResources,
+        resources: response.hasResources ? mockResources : undefined,
+        symptoms: response.hasResources ? userSymptoms : undefined
       }]);
     }, 1000);
   };
@@ -236,6 +413,18 @@ const Chat = () => {
               <p className="text-sm text-[#39403B] leading-relaxed">
                 {msg.content}
               </p>
+              
+              {/* Resource Presentation */}
+              {msg.hasResources && msg.resources && msg.symptoms && (
+                <div className="mt-4">
+                  <ResourcePresentation
+                    resources={msg.resources}
+                    symptoms={msg.symptoms}
+                    onPinResource={handlePinResource}
+                    pinnedResources={pinnedResources}
+                  />
+                </div>
+              )}
             </div>
           </div>
         ))}
