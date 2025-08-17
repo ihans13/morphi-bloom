@@ -50,7 +50,7 @@ const Resources = () => {
 
   return (
     <div 
-      className="max-w-md mx-auto p-4 space-y-6 min-h-screen relative pb-20"
+      className="max-w-md mx-auto p-4 space-y-6 h-full relative"
       style={{
         backgroundImage: `url('/lovable-uploads/9cc76a1c-07f0-433c-b92e-f8ba3a6b0e05.png')`,
         backgroundSize: 'cover',
@@ -132,7 +132,7 @@ const Resources = () => {
         </div>
 
         {/* Folders Grid */}
-        <div className={`grid gap-3 ${folders.length === 1 ? 'grid-cols-1' : 'grid-cols-2'}`}>
+        <div className={`grid gap-3 ${folders.length === 1 ? 'grid-cols-1' : 'grid-cols-2'} overflow-y-auto max-h-96`}>
           {folders.map((folder) => (
             <Card 
               key={folder.id} 
