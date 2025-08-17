@@ -23,9 +23,16 @@ const queryClient = new QueryClient();
 const AppContent = () => {
   const location = useLocation();
   const isChatPage = location.pathname === '/chat' || location.pathname.startsWith('/chat/');
+  const isHomePage = location.pathname === '/';
 
   return (
-    <div className={isChatPage ? "h-screen bg-background overflow-hidden" : "min-h-screen bg-background pb-20"}>
+    <div className={
+      isChatPage 
+        ? "h-screen bg-background overflow-hidden" 
+        : isHomePage 
+          ? "min-h-screen bg-background pb-20 overflow-y-auto"
+          : "h-screen bg-background pb-20 overflow-hidden"
+    }>
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/chat" element={<Chat />} />
