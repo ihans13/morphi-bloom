@@ -58,7 +58,9 @@ export const BottomNavigation = () => {
         </div>
       </nav>
       {/* 32px safe space for home screen navigation */}
-      <div className="h-8 bg-white fixed bottom-0 left-0 right-0 z-10"></div>
+      <div className="h-8 bg-white fixed bottom-0 left-0 right-0 z-10 flex items-center justify-center">
+        <div className="w-32 h-1 bg-gray-400 rounded-full"></div>
+      </div>
     </>
   );
 };
