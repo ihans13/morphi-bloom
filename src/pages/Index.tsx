@@ -56,7 +56,7 @@ const Index = () => {
   ];
 
   return (
-    <div className="max-w-md mx-auto p-4 space-y-6 bg-background min-h-screen">
+    <div className="max-w-md mx-auto p-4 space-y-6 bg-background min-h-screen pb-32">
       {/* Hero Section */}
       <div className="text-center bg-gradient-hero rounded-2xl p-6 text-foreground shadow-glow">
         <div className="flex items-center justify-center gap-2 mb-3">
