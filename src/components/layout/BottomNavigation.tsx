@@ -40,8 +40,8 @@ export const BottomNavigation = () => {
 
   return (
     <>
-      <nav className="flex justify-center items-center text-xs text-center whitespace-nowrap bg-white shadow-[0_-2px_8px_rgba(0,0,0,0.1)] fixed bottom-8 left-0 right-0 h-[58px] z-20">
-        <div className="flex justify-around items-center px-4 w-full h-full">
+      <nav className="flex items-center text-xs text-center whitespace-nowrap bg-white shadow-[0_-2px_8px_rgba(0,0,0,0.1)] fixed bottom-8 left-0 right-0 h-[58px] z-20">
+        <div className="flex justify-around items-center px-2 w-full h-full">
           {navigationItems.map((item) => {
             const isActive = location.pathname === item.path;
             
