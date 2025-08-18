@@ -2,6 +2,9 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Heart, TrendingUp, Users, BookOpen, MessageCircle, Clock } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import sleepThumb from "@/assets/sleep-insight-thumb.jpg";
+import nutritionThumb from "@/assets/nutrition-insight-thumb.jpg";
+import exerciseThumb from "@/assets/exercise-insight-thumb.jpg";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -12,21 +15,24 @@ const Index = () => {
       title: "Managing Sleep During Perimenopause",
       description: "Expert tips for better rest and recovery",
       readTime: "5 min read",
-      category: "Sleep & Rest"
+      category: "Sleep & Rest",
+      thumbnail: sleepThumb
     },
     {
       id: 2,
       title: "Nutrition for Hormonal Balance",
       description: "Foods that support your body through changes",
-      readTime: "7 min read",
-      category: "Nutrition"
+      readTime: "20 min listen",
+      category: "Nutrition",
+      thumbnail: nutritionThumb
     },
     {
       id: 3,
       title: "Exercise and Joint Health",
       description: "Gentle movements to keep you strong",
       readTime: "4 min read",
-      category: "Fitness"
+      category: "Fitness",
+      thumbnail: exerciseThumb
     }
   ];
 
@@ -81,8 +87,12 @@ const Index = () => {
             className="p-4 cursor-pointer hover:shadow-warm transition-all duration-200 active:scale-[0.98]"
           >
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-full bg-gradient-primary flex items-center justify-center shadow-lg">
-                <BookOpen size={20} className="text-foreground" />
+              <div className="w-12 h-12 rounded-full overflow-hidden shadow-lg">
+                <img 
+                  src={insight.thumbnail} 
+                  alt={insight.title}
+                  className="w-full h-full object-cover"
+                />
               </div>
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-1">
