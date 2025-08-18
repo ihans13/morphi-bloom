@@ -30,7 +30,7 @@ const AppContent = () => {
       isChatPage 
         ? "h-screen bg-background overflow-hidden" 
         : isHomePage 
-          ? "min-h-screen bg-background pb-28 overflow-y-auto"
+          ? "h-screen bg-background overflow-hidden"
           : "h-screen bg-background pb-28 overflow-hidden"
     }>
       <Routes>

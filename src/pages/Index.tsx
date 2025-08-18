@@ -56,7 +56,8 @@ const Index = () => {
   ];
 
   return (
-    <div className="max-w-md mx-auto p-4 space-y-6 bg-background min-h-screen pb-32">
+    <div className="h-screen overflow-y-auto" style={{ maxHeight: 'calc(100vh - 90px)' }}>
+      <div className="max-w-md mx-auto p-4 space-y-6 bg-background pb-6">
       {/* Hero Section */}
       <div className="text-center bg-gradient-hero rounded-2xl p-6 text-foreground shadow-glow">
         <div className="flex items-center justify-center gap-2 mb-3">
@@ -147,6 +148,7 @@ const Index = () => {
           <Users size={16} className="mr-2" />
           Explore More Discussions
         </Button>
+      </div>
       </div>
     </div>
   );
