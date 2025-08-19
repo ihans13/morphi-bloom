@@ -81,7 +81,10 @@ const Resources = () => {
             <Settings size={14} className="mr-1" />
             App Settings
           </Button>
-          <Button variant="destructive" size="sm" className="text-xs">
+          <Button 
+            size="sm" 
+            className="text-xs bg-gradient-to-r from-[#F6C5B1] via-[#EADFB0] to-[#DAE7B3] text-[#39403B] border-0 hover:opacity-90"
+          >
             <LogOut size={14} className="mr-1" />
             Log Out
           </Button>
@@ -145,22 +148,36 @@ const Resources = () => {
           {folders.map((folder) => (
             <Card 
               key={folder.id} 
-              className="aspect-square p-4 cursor-pointer hover:shadow-md transition-shadow bg-muted/50"
+              className="cursor-pointer hover:shadow-lg transition-all duration-200 bg-card shadow-sm border"
               onClick={() => navigate(`/resources/folder/${folder.id}`)}
             >
-              <div className="h-full flex flex-col">
-                <div className="flex-1 flex items-center justify-center">
-                  <Folder size={32} className="text-muted-foreground" />
-                </div>
-                <div className="text-center">
-                  <h3 className="font-medium text-sm text-foreground truncate">
-                    {folder.name}
-                  </h3>
-                  {folder.itemCount > 0 && (
-                    <p className="text-xs text-muted-foreground mt-1">
-                      {folder.itemCount} items
+              <div className="p-0">
+                {/* Image Placeholder */}
+                <div className="h-24 bg-muted rounded-t-lg"></div>
+                
+                {/* Content */}
+                <div className="p-3 space-y-2">
+                  <div>
+                    <h3 className="font-semibold text-sm text-foreground truncate">
+                      {folder.name}
+                    </h3>
+                    <p className="text-xs text-muted-foreground">
+                      {folder.itemCount} {folder.itemCount === 1 ? 'item' : 'items'}
                     </p>
-                  )}
+                  </div>
+                  
+                  {/* Pill Buttons */}
+                  <div className="flex gap-1 flex-wrap">
+                    <div className="px-2 py-1 bg-muted rounded-full text-xs text-muted-foreground flex items-center gap-1">
+                      <Folder size={10} />
+                      Articles
+                    </div>
+                    {folder.itemCount > 1 && (
+                      <div className="px-2 py-1 bg-muted rounded-full text-xs text-muted-foreground">
+                        +{folder.itemCount - 1}
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </Card>
