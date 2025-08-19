@@ -59,7 +59,7 @@ const mockResources: Resource[] = [
     type: 'article',
     title: 'Grab Some GABA For Menopause Sleep Problems',
     subtitle: 'Article by Andrea Donsky (6 mins read)',
-    thumbnail: '📖',
+    thumbnail: '/src/assets/sleep-insight-thumb.jpg',
     link: 'https://wearemorphus.com/blogs/sleep/grab-some-gaba-for-menopause-sleep-problems',
     relevanceScore: 0.8
   },
@@ -68,7 +68,7 @@ const mockResources: Resource[] = [
     type: 'article',
     title: 'Don\'t Throw Away Your Melatonin Supplements!',
     subtitle: 'Article by Andrea Donsky (3 mins read)',
-    thumbnail: '📖',
+    thumbnail: '💤',
     link: 'https://wearemorphus.com/blogs/sleep/don-t-throw-away-your-melatonin-supplements',
     relevanceScore: 0.7
   }
