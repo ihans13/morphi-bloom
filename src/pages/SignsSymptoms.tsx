@@ -4,9 +4,11 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useToast } from "@/components/ui/use-toast";
 
 const SignsSymptoms = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
   const [checkedSymptoms, setCheckedSymptoms] = useState<string[]>([]);
 
   const handleSymptomCheck = (symptom: string, checked: boolean) => {
@@ -15,6 +17,28 @@ const SignsSymptoms = () => {
     } else {
       setCheckedSymptoms(checkedSymptoms.filter(s => s !== symptom));
     }
+  };
+
+  const handleSaveSymptoms = () => {
+    // Save to local storage or send to backend
+    const symptomsData = {
+      symptoms: checkedSymptoms,
+      timestamp: new Date().toISOString(),
+    };
+    
+    // Save to local storage for now
+    const existingData = localStorage.getItem('symptomsHistory');
+    const history = existingData ? JSON.parse(existingData) : [];
+    history.push(symptomsData);
+    localStorage.setItem('symptomsHistory', JSON.stringify(history));
+    
+    toast({
+      title: "Symptoms Saved",
+      description: `${checkedSymptoms.length} symptoms have been recorded successfully.`,
+    });
+    
+    // Navigate to Track page
+    navigate('/track');
   };
 
   const symptomCategories = {
@@ -73,7 +97,7 @@ const SignsSymptoms = () => {
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => navigate(-1)}
+              onClick={() => navigate('/track')}
               className="mr-2"
             >
               <ArrowLeft className="h-4 w-4" />
@@ -127,6 +151,7 @@ const SignsSymptoms = () => {
                 className="w-full"
                 style={{ backgroundColor: '#39403B', color: 'white' }}
                 disabled={checkedSymptoms.length === 0}
+                onClick={handleSaveSymptoms}
               >
                 Save Selected Symptoms ({checkedSymptoms.length})
               </Button>
