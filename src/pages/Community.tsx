@@ -110,7 +110,8 @@ const Community = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto p-4 space-y-6 bg-background min-h-screen">
+    <div className="h-screen overflow-y-auto" style={{ maxHeight: 'calc(100vh - 90px)' }}>
+      <div className="max-w-md mx-auto p-4 space-y-6 bg-background pb-6">
       {/* Header */}
       <div className="text-center">
         <h1 className="text-2xl font-bold text-foreground mb-2">Community Q&A</h1>
@@ -265,6 +266,7 @@ const Community = () => {
             )}
           </Card>
         ))}
+      </div>
       </div>
     </div>
   );
