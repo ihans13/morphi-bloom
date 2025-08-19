@@ -79,7 +79,7 @@ const Resources = () => {
 
   return (
     <div 
-      className="max-w-md mx-auto h-screen flex flex-col relative"
+      className="max-w-md mx-auto p-4 space-y-6 h-screen flex flex-col overflow-hidden relative"
       style={{
         backgroundImage: `url('/lovable-uploads/9cc76a1c-07f0-433c-b92e-f8ba3a6b0e05.png')`,
         backgroundSize: 'cover',
@@ -87,12 +87,10 @@ const Resources = () => {
         backgroundRepeat: 'no-repeat'
       }}
     >
-      {/* Fixed Profile Section */}
-      <div className="p-4 space-y-6">
-        {/* Profile Section */}
-        <div className="text-center space-y-6 py-8">
+      {/* Profile Section */}
+      <div className="text-center space-y-6 py-8">
         <div className="relative inline-block">
-          <div className="w-20 h-20 bg-muted rounded-full border border-border flex items-center justify-center">
+          <div className="w-20 h-20 bg-[#39403B] rounded-full border border-border flex items-center justify-center">
             <User size={28} className="text-white" />
           </div>
         </div>
@@ -120,13 +118,12 @@ const Resources = () => {
             Log Out
           </Button>
         </div>
-        </div>
       </div>
 
       <hr className="border-border" />
 
-      {/* Scrollable My Scrapbook Section */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+      {/* My Scrapbook Section */}
+      <div className="space-y-4 flex-1 overflow-hidden flex flex-col">
         <div>
           <h2 className="text-lg font-semibold text-foreground">My Scrapbook</h2>
           <p className="text-sm text-muted-foreground">12 items saved across 4 collections</p>
@@ -176,7 +173,7 @@ const Resources = () => {
         </div>
 
         {/* Folders Grid */}
-        <div className={`grid gap-3 ${folders.length === 1 ? 'grid-cols-1' : 'grid-cols-2'} pb-20`}>
+        <div className={`grid gap-3 ${folders.length === 1 ? 'grid-cols-1' : 'grid-cols-2'} flex-1 overflow-y-auto pb-20`}>
           {folders.map((folder) => {
             const isFullWidth = folders.length === 1;
             return (
