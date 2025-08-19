@@ -166,8 +166,7 @@ const SignsSymptoms = () => {
             {/* Save Button */}
             <div className="pb-6">
               <Button 
-                className="w-full"
-                style={{ backgroundColor: '#39403B', color: 'white' }}
+                className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
                 disabled={checkedSymptoms.length === 0}
                 onClick={handleSaveSymptoms}
               >
