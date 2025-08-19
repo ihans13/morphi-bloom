@@ -11,7 +11,11 @@ import {
   Camera,
   Plus,
   Search,
-  Folder
+  Folder,
+  BookOpen,
+  Headphones,
+  Video,
+  ShoppingBag
 } from "lucide-react";
 
 const Resources = () => {
@@ -50,6 +54,18 @@ const Resources = () => {
       setNewFolderName('');
       setIsDialogOpen(false);
     }
+  };
+
+  const getCategoriesForFolder = (folderId: string) => {
+    if (folderId === 'uncategorized') {
+      return [
+        { icon: BookOpen, label: 'Articles' },
+        { icon: Headphones, label: 'Podcasts' },
+        { icon: Video, label: 'Videos' },
+        { icon: ShoppingBag, label: 'Products' }
+      ];
+    }
+    return [{ icon: Folder, label: 'Articles' }];
   };
 
   return (
@@ -182,15 +198,31 @@ const Resources = () => {
                   
                   {/* Pill Buttons */}
                   <div className="flex gap-1 flex-wrap">
-                    <div className="px-2 py-1 bg-muted rounded-full text-xs text-muted-foreground flex items-center gap-1">
-                      <Folder size={10} />
-                      Articles
-                    </div>
-                    {folder.itemCount > 1 && (
-                      <div className="px-2 py-1 bg-muted rounded-full text-xs text-muted-foreground">
-                        +{folder.itemCount - 1}
-                      </div>
-                    )}
+                    {(() => {
+                      const categories = getCategoriesForFolder(folder.id);
+                      const maxVisible = 2; // Show max 2 categories to ensure they fit
+                      const visibleCategories = categories.slice(0, maxVisible);
+                      const remainingCount = categories.length - maxVisible;
+                      
+                      return (
+                        <>
+                          {visibleCategories.map((category, index) => {
+                            const IconComponent = category.icon;
+                            return (
+                              <div key={index} className="px-2 py-1 bg-muted rounded-full text-xs text-muted-foreground flex items-center gap-1">
+                                <IconComponent size={10} />
+                                {category.label}
+                              </div>
+                            );
+                          })}
+                          {remainingCount > 0 && (
+                            <div className="px-2 py-1 bg-muted rounded-full text-xs text-muted-foreground">
+                              +{remainingCount}
+                            </div>
+                          )}
+                        </>
+                      );
+                    })()}
                   </div>
                 </div>
               </div>
