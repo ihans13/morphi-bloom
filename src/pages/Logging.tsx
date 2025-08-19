@@ -182,12 +182,13 @@ const Logging = () => {
             <Button 
               onClick={handleSaveNote}
               disabled={!noteText.trim()}
-              className={`w-full transition-all duration-200 mt-auto ${
-                noteText.trim() 
-                  ? 'text-white hover:opacity-90' 
-                  : 'bg-gradient-primary text-[#39403B] hover:shadow-glow'
-              }`}
-              style={noteText.trim() ? { backgroundColor: '#39403B' } : {}}
+              variant="ghost"
+              className="w-full transition-all duration-200 mt-auto"
+              style={{
+                background: noteText.trim() ? '#39403B' : 'linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)))',
+                color: noteText.trim() ? 'white' : '#39403B',
+                border: 'none'
+              }}
             >
               Save Entry
             </Button>
