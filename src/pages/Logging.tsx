@@ -176,7 +176,7 @@ const Logging = () => {
               value={noteText}
               onChange={(e) => setNoteText(e.target.value)}
               placeholder="Describe how you're feeling today, any symptoms you're experiencing, or anything else you'd like to track..."
-              className="min-h-32 flex-1"
+              className="min-h-16 max-h-20 resize-none"
             />
             
             <Button 
