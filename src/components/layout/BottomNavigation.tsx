@@ -18,7 +18,7 @@ const navigationItems = [
     id: "logging", 
     label: "Track", 
     icon: "https://api.builder.io/api/v1/image/assets/556be626e37a450e8038ec05ad2116c3/751c3d1aceb200d2402c061c2d03cddfdbe4384b?placeholderIfAbsent=true",
-    path: "/logging" 
+    path: "/track" 
   },
   { 
     id: "community", 
