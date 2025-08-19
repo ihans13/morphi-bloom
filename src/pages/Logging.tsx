@@ -183,11 +183,12 @@ const Logging = () => {
               onClick={handleSaveNote}
               disabled={!noteText.trim()}
               variant="ghost"
-              className="w-full transition-all duration-200 mt-auto"
+              className="w-full transition-all duration-200 mt-auto disabled:opacity-100"
               style={{
                 background: noteText.trim() ? '#39403B' : 'linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)))',
                 color: noteText.trim() ? 'white' : '#39403B',
-                border: 'none'
+                border: 'none',
+                opacity: 1
               }}
             >
               Save Entry
@@ -209,8 +210,9 @@ const Logging = () => {
             <Dialog>
               <DialogTrigger asChild>
                 <Button 
-                  className="w-full hover:opacity-90 transition-opacity duration-200 border-0 mt-auto"
-                  style={{ backgroundColor: '#39403B', color: 'white' }}
+                  variant="ghost"
+                  className="w-full transition-opacity duration-200 border-0 mt-auto hover:opacity-90"
+                  style={{ backgroundColor: '#39403B', color: 'white', border: 'none' }}
                 >
                   Browse Templates
                 </Button>
