@@ -14,6 +14,24 @@ const Track = () => {
   const [recentEntries, setRecentEntries] = useState([
     {
       id: 1,
+      title: "Morning Headache",
+      type: "Template",
+      date: "Jan 19, 8:30 AM",
+      severity: "7/10",
+      preview: null,
+      icon: FileText
+    },
+    {
+      id: 2,
+      title: "Feeling Better Today",
+      type: "Journal",
+      date: "Jan 18, 7:45 PM",
+      severity: null,
+      preview: "Had a good night's sleep and feeling more energetic this morning. The new meditation...",
+      icon: Edit3
+    },
+    {
+      id: 3,
       title: "Morning Reflection",
       type: "Template",
       date: "Today, 8:30 AM",
@@ -22,7 +40,7 @@ const Track = () => {
       icon: FileText
     },
     {
-      id: 2,
+      id: 4,
       title: "Evening Journal",
       type: "Journal",
       date: "Yesterday, 9:15 PM",
@@ -31,7 +49,7 @@ const Track = () => {
       icon: Edit3
     },
     {
-      id: 3,
+      id: 5,
       title: "Quick Voice Note",
       type: "Voice",
       date: "2 days ago",
@@ -140,6 +158,7 @@ const Track = () => {
       case "moderate": return "bg-yellow-100 text-yellow-800";
       case "severe": return "bg-red-100 text-red-800";
       case "poor": return "bg-red-100 text-red-800";
+      case "7/10": return "bg-red-100 text-red-800";
       default: return "bg-gray-100 text-gray-800";
     }
   };
