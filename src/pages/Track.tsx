@@ -2,8 +2,36 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, FileText, Edit3, Mic, Thermometer, Brain, Moon } from "lucide-react";
+import { useState, useEffect } from "react";
 
 const Track = () => {
+  const [recentEntries, setRecentEntries] = useState([
+    { 
+      id: 1, 
+      title: "Morning Headache", 
+      type: "Template", 
+      date: "Jan 19, 8:30 AM",
+      severity: "7/10",
+      icon: FileText 
+    },
+    { 
+      id: 2, 
+      title: "Feeling Better Today", 
+      type: "Journal", 
+      date: "Jan 18, 7:45 PM",
+      preview: "Had a good night's sleep and feeling more energetic this morning. The new meditation...",
+      icon: Edit3 
+    }
+  ]);
+
+  useEffect(() => {
+    const savedEntries = localStorage.getItem('recentEntries');
+    if (savedEntries) {
+      const entries = JSON.parse(savedEntries);
+      setRecentEntries(entries);
+    }
+  }, []);
+
   const todaysSymptoms = [
     { id: 1, name: "Hot Flashes", severity: "Moderate", time: "10:30 AM", icon: Thermometer },
     { id: 2, name: "Brain Fog", severity: "Mild", time: "2:15 PM", icon: Brain },
@@ -34,24 +62,14 @@ const Track = () => {
     }
   };
 
-  const recentEntries = [
-    { 
-      id: 1, 
-      title: "Morning Headache", 
-      type: "Template", 
-      date: "Jan 19, 8:30 AM",
-      severity: "7/10",
-      icon: FileText 
-    },
-    { 
-      id: 2, 
-      title: "Feeling Better Today", 
-      type: "Journal", 
-      date: "Jan 18, 7:45 PM",
-      preview: "Had a good night's sleep and feeling more energetic this morning. The new meditation...",
-      icon: Edit3 
+  const getIconComponent = (iconName: string) => {
+    switch (iconName) {
+      case 'Thermometer': return Thermometer;
+      case 'FileText': return FileText;
+      case 'Edit3': return Edit3;
+      default: return FileText;
     }
-  ];
+  };
 
   return (
     <div className="max-w-md mx-auto p-4 space-y-6 bg-background min-h-screen">
@@ -128,7 +146,7 @@ const Track = () => {
         
         <div className="space-y-3">
           {recentEntries.map((entry) => {
-            const Icon = entry.icon;
+            const Icon = typeof entry.icon === 'string' ? getIconComponent(entry.icon) : entry.icon;
             return (
               <Card key={entry.id} className="p-4">
                 <div className="flex items-start gap-3">

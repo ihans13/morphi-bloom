@@ -32,6 +32,27 @@ const SignsSymptoms = () => {
     history.push(symptomsData);
     localStorage.setItem('symptomsHistory', JSON.stringify(history));
     
+    // Add to recent entries for Track page
+    const recentEntry = {
+      id: Date.now(),
+      title: `Symptoms Tracked`,
+      type: "Signs & Symptoms",
+      date: new Date().toLocaleDateString('en-US', { 
+        month: 'short', 
+        day: 'numeric', 
+        hour: 'numeric', 
+        minute: '2-digit',
+        hour12: true 
+      }),
+      preview: `${checkedSymptoms.length} symptoms recorded: ${checkedSymptoms.slice(0, 3).join(', ')}${checkedSymptoms.length > 3 ? '...' : ''}`,
+      icon: 'Thermometer'
+    };
+    
+    const existingEntries = localStorage.getItem('recentEntries');
+    const entries = existingEntries ? JSON.parse(existingEntries) : [];
+    entries.unshift(recentEntry); // Add to beginning
+    localStorage.setItem('recentEntries', JSON.stringify(entries));
+    
     toast({
       title: "Symptoms Saved",
       description: `${checkedSymptoms.length} symptoms have been recorded successfully.`,
@@ -119,12 +140,9 @@ const SignsSymptoms = () => {
             {/* Symptom Categories */}
             {Object.entries(symptomCategories).map(([category, symptoms]) => (
               <div key={category} className="bg-background/80 rounded-lg p-6 backdrop-blur-sm">
-                <div 
-                  className="text-center py-2 px-4 rounded-md mb-4 font-bold text-white text-sm"
-                  style={{ backgroundColor: '#A67B43' }}
-                >
+                <h3 className="text-lg font-bold text-foreground mb-4 border-b border-muted pb-2">
                   {category}
-                </div>
+                </h3>
                 <div className="grid grid-cols-1 gap-3">
                   {symptoms.map((symptom) => (
                     <div key={symptom} className="flex items-center space-x-3">
