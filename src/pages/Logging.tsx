@@ -180,29 +180,30 @@ const Logging = () => {
                   Browse Templates
                 </Button>
               </DialogTrigger>
-              <DialogContent className="max-w-sm max-h-[80vh]">
-                <DialogHeader>
-                  <DialogTitle>Choose a Template</DialogTitle>
+              <DialogContent className="max-w-md w-[90vw] max-h-[80vh]">
+                <DialogHeader className="pb-4">
+                  <DialogTitle className="text-center">Choose a Template</DialogTitle>
                 </DialogHeader>
-                <div className="space-y-3 overflow-y-auto flex-1">
+                <div className="space-y-3 overflow-y-auto">
                   {templateOptions.map((template) => {
                     const IconComponent = template.icon;
                     return (
-                      <Button
+                      <div
                         key={template.id}
-                        variant="ghost"
-                        className="w-full p-4 h-auto flex items-start gap-3 hover:bg-accent"
+                        className="w-full p-4 border rounded-lg hover:bg-accent/50 cursor-pointer transition-colors"
                       >
-                        <div className={`w-12 h-12 rounded-lg ${template.bgColor} flex items-center justify-center flex-shrink-0`}>
-                          <IconComponent className={template.iconColor} size={20} />
+                        <div className="flex items-start gap-4">
+                          <div className={`w-12 h-12 rounded-lg ${template.bgColor} flex items-center justify-center flex-shrink-0`}>
+                            <IconComponent className={template.iconColor} size={20} />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <h4 className="font-medium text-sm mb-2 leading-tight">{template.title}</h4>
+                            <p className="text-xs text-muted-foreground leading-relaxed">
+                              {template.description}
+                            </p>
+                          </div>
                         </div>
-                        <div className="text-left flex-1 min-w-0">
-                          <h4 className="font-medium text-sm">{template.title}</h4>
-                          <p className="text-xs text-muted-foreground mt-1 break-words">
-                            {template.description}
-                          </p>
-                        </div>
-                      </Button>
+                      </div>
                     );
                   })}
                 </div>
