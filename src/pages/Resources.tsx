@@ -17,7 +17,7 @@ import {
 const Resources = () => {
   const navigate = useNavigate();
   const [folders, setFolders] = useState([
-    { id: 'all-clippings', name: 'All clippings', itemCount: 12 }
+    { id: 'uncategorized', name: 'Uncategorized', itemCount: 2 }
   ]);
   const [newFolderName, setNewFolderName] = useState('');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -42,7 +42,11 @@ const Resources = () => {
         name: newFolderName.trim(),
         itemCount: 0
       };
-      setFolders(prev => [...prev, newFolder]);
+      setFolders(prev => {
+        const uncategorized = prev.find(f => f.id === 'uncategorized');
+        const otherFolders = prev.filter(f => f.id !== 'uncategorized');
+        return [uncategorized, ...otherFolders, newFolder].filter(Boolean);
+      });
       setNewFolderName('');
       setIsDialogOpen(false);
     }
@@ -83,7 +87,7 @@ const Resources = () => {
           </Button>
           <Button 
             size="sm" 
-            className="text-xs bg-gradient-to-r from-[#F6C5B1] via-[#EADFB0] to-[#DAE7B3] text-[#39403B] border-0 hover:opacity-90"
+            className="text-xs bg-[#CDD8D1] text-[#39403B] border-0 hover:bg-[#CDD8D1]/90"
           >
             <LogOut size={14} className="mr-1" />
             Log Out
@@ -153,7 +157,17 @@ const Resources = () => {
             >
               <div className="p-0">
                 {/* Image Placeholder */}
-                <div className="h-24 bg-muted rounded-t-lg"></div>
+                <div className="h-24 bg-muted rounded-t-lg overflow-hidden">
+                  {folder.id === 'uncategorized' ? (
+                    <img 
+                      src="/lovable-uploads/d25237f8-bc96-4240-be0e-fad6761f7743.png" 
+                      alt="Uncategorized folder" 
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-muted"></div>
+                  )}
+                </div>
                 
                 {/* Content */}
                 <div className="p-3 space-y-2">
