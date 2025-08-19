@@ -19,7 +19,7 @@ const Track = () => {
       date: "Jan 19, 8:30 AM",
       severity: "7/10",
       preview: null,
-      icon: FileText
+      icon: "FileText"
     },
     {
       id: 2,
@@ -28,7 +28,7 @@ const Track = () => {
       date: "Jan 18, 7:45 PM",
       severity: null,
       preview: "Had a good night's sleep and feeling more energetic this morning. The new meditation...",
-      icon: Edit3
+      icon: "Edit3"
     },
     {
       id: 3,
@@ -37,7 +37,7 @@ const Track = () => {
       date: "Today, 8:30 AM",
       severity: "Mild",
       preview: "Slept 7 hours, feeling refreshed. Minor headache after coffee.",
-      icon: FileText
+      icon: "FileText"
     },
     {
       id: 4,
@@ -46,7 +46,7 @@ const Track = () => {
       date: "Yesterday, 9:15 PM",
       severity: "Moderate",
       preview: "Energy levels were good today. Had some mood swings...",
-      icon: Edit3
+      icon: "Edit3"
     },
     {
       id: 5,
@@ -55,7 +55,7 @@ const Track = () => {
       date: "2 days ago",
       severity: "Mild",
       preview: "Voice recording about hot flashes during meeting",
-      icon: Mic
+      icon: "Mic"
     }
   ]);
 
@@ -143,7 +143,7 @@ const Track = () => {
       date: `Today, ${timeString}`,
       severity: "Mild",
       preview: noteText.length > 50 ? noteText.substring(0, 50) + "..." : noteText,
-      icon: Edit3
+      icon: "Edit3"
     };
     
     const updatedEntries = [newEntry, ...recentEntries];
@@ -176,6 +176,7 @@ const Track = () => {
       case 'Thermometer': return Thermometer;
       case 'FileText': return FileText;
       case 'Edit3': return Edit3;
+      case 'Mic': return Mic;
       default: return FileText;
     }
   };
@@ -347,7 +348,7 @@ const Track = () => {
           
           <div className="space-y-3">
             {recentEntries.map((entry) => {
-              const Icon = typeof entry.icon === 'string' ? getIconComponent(entry.icon) : entry.icon;
+              const Icon = getIconComponent(entry.icon);
               return (
                 <Card key={entry.id} className="p-4">
                   <div className="flex items-start gap-3">
