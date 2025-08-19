@@ -182,7 +182,12 @@ const Logging = () => {
             <Button 
               onClick={handleSaveNote}
               disabled={!noteText.trim()}
-              className="w-full bg-gradient-primary hover:shadow-glow transition-all duration-200 mt-auto"
+              className={`w-full transition-all duration-200 mt-auto ${
+                noteText.trim() 
+                  ? 'text-white hover:opacity-90' 
+                  : 'bg-gradient-primary text-[#39403B] hover:shadow-glow'
+              }`}
+              style={noteText.trim() ? { backgroundColor: '#39403B' } : {}}
             >
               Save Entry
             </Button>
