@@ -56,7 +56,7 @@ const Resources = () => {
     }
   };
 
-  const getCategoriesForFolder = (folderId: string, isFullWidth: boolean) => {
+  const getCategoriesForFolder = (folderId: string, isFullWidth: boolean, itemCount: number) => {
     if (folderId === 'uncategorized') {
       const categories = [
         { icon: BookOpen, label: 'Articles' },
@@ -68,6 +68,12 @@ const Resources = () => {
       const maxVisible = isFullWidth ? 2 : 1;
       return { categories, maxVisible };
     }
+    
+    // For empty custom folders, return empty categories
+    if (itemCount === 0) {
+      return { categories: [], maxVisible: 0 };
+    }
+    
     return { categories: [{ icon: Folder, label: 'Articles' }], maxVisible: 1 };
   };
 
@@ -202,11 +208,19 @@ const Resources = () => {
                     </div>
                   
                     {/* Pill Buttons */}
-                    <div className="flex gap-1 flex-wrap">
+                    <div className="flex gap-1 flex-wrap min-h-[20px]">
                       {(() => {
-                        const { categories, maxVisible } = getCategoriesForFolder(folder.id, isFullWidth);
+                        const { categories, maxVisible } = getCategoriesForFolder(folder.id, isFullWidth, folder.itemCount);
                         const visibleCategories = categories.slice(0, maxVisible);
                         const remainingCount = categories.length - maxVisible;
+                        
+                        if (categories.length === 0) {
+                          return (
+                            <div className="text-xs text-muted-foreground/60 italic">
+                              Empty folder
+                            </div>
+                          );
+                        }
                         
                         return (
                           <>
