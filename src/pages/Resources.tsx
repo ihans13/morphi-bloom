@@ -56,16 +56,19 @@ const Resources = () => {
     }
   };
 
-  const getCategoriesForFolder = (folderId: string) => {
+  const getCategoriesForFolder = (folderId: string, isFullWidth: boolean) => {
     if (folderId === 'uncategorized') {
-      return [
+      const categories = [
         { icon: BookOpen, label: 'Articles' },
         { icon: Headphones, label: 'Podcasts' },
         { icon: Video, label: 'Videos' },
         { icon: ShoppingBag, label: 'Products' }
       ];
+      // Show more categories when full width, fewer when half width
+      const maxVisible = isFullWidth ? 2 : 1;
+      return { categories, maxVisible };
     }
-    return [{ icon: Folder, label: 'Articles' }];
+    return { categories: [{ icon: Folder, label: 'Articles' }], maxVisible: 1 };
   };
 
   return (
@@ -165,69 +168,71 @@ const Resources = () => {
 
         {/* Folders Grid */}
         <div className={`grid gap-3 ${folders.length === 1 ? 'grid-cols-1' : 'grid-cols-2'} overflow-y-auto max-h-96`}>
-          {folders.map((folder) => (
-            <Card 
-              key={folder.id} 
-              className="cursor-pointer hover:shadow-lg transition-all duration-200 bg-card shadow-sm border"
-              onClick={() => navigate(`/resources/folder/${folder.id}`)}
-            >
-              <div className="p-0">
-                {/* Image Placeholder */}
-                <div className="h-24 bg-muted rounded-t-lg overflow-hidden">
-                  {folder.id === 'uncategorized' ? (
-                    <img 
-                      src="/lovable-uploads/d25237f8-bc96-4240-be0e-fad6761f7743.png" 
-                      alt="Uncategorized folder" 
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <div className="w-full h-full bg-muted"></div>
-                  )}
-                </div>
-                
-                {/* Content */}
-                <div className="p-3 space-y-2">
-                  <div>
-                    <h3 className="font-semibold text-sm text-foreground truncate">
-                      {folder.name}
-                    </h3>
-                    <p className="text-xs text-muted-foreground">
-                      {folder.itemCount} {folder.itemCount === 1 ? 'item' : 'items'}
-                    </p>
+          {folders.map((folder) => {
+            const isFullWidth = folders.length === 1;
+            return (
+              <Card 
+                key={folder.id} 
+                className="cursor-pointer hover:shadow-lg transition-all duration-200 bg-card shadow-sm border"
+                onClick={() => navigate(`/resources/folder/${folder.id}`)}
+              >
+                <div className="p-0">
+                  {/* Image Placeholder */}
+                  <div className={`bg-muted rounded-t-lg overflow-hidden ${isFullWidth ? 'h-32' : 'h-24'}`}>
+                    {folder.id === 'uncategorized' ? (
+                      <img 
+                        src="/lovable-uploads/d25237f8-bc96-4240-be0e-fad6761f7743.png" 
+                        alt="Uncategorized folder" 
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-muted"></div>
+                    )}
                   </div>
                   
-                  {/* Pill Buttons */}
-                  <div className="flex gap-1 flex-wrap">
-                    {(() => {
-                      const categories = getCategoriesForFolder(folder.id);
-                      const maxVisible = 2; // Show max 2 categories to ensure they fit
-                      const visibleCategories = categories.slice(0, maxVisible);
-                      const remainingCount = categories.length - maxVisible;
-                      
-                      return (
-                        <>
-                          {visibleCategories.map((category, index) => {
-                            const IconComponent = category.icon;
-                            return (
-                              <div key={index} className="px-2 py-1 bg-muted rounded-full text-xs text-muted-foreground flex items-center gap-1">
-                                <IconComponent size={10} />
-                                {category.label}
+                  {/* Content */}
+                  <div className="p-3 space-y-2">
+                    <div>
+                      <h3 className="font-semibold text-sm text-foreground truncate">
+                        {folder.name}
+                      </h3>
+                      <p className="text-xs text-muted-foreground">
+                        {folder.itemCount} {folder.itemCount === 1 ? 'item' : 'items'}
+                      </p>
+                    </div>
+                  
+                    {/* Pill Buttons */}
+                    <div className="flex gap-1 flex-wrap">
+                      {(() => {
+                        const { categories, maxVisible } = getCategoriesForFolder(folder.id, isFullWidth);
+                        const visibleCategories = categories.slice(0, maxVisible);
+                        const remainingCount = categories.length - maxVisible;
+                        
+                        return (
+                          <>
+                            {visibleCategories.map((category, index) => {
+                              const IconComponent = category.icon;
+                              return (
+                                <div key={index} className="px-2 py-1 bg-muted rounded-full text-xs text-muted-foreground flex items-center gap-1">
+                                  <IconComponent size={10} />
+                                  {category.label}
+                                </div>
+                              );
+                            })}
+                            {remainingCount > 0 && (
+                              <div className="px-2 py-1 bg-muted rounded-full text-xs text-muted-foreground">
+                                +{remainingCount}
                               </div>
-                            );
-                          })}
-                          {remainingCount > 0 && (
-                            <div className="px-2 py-1 bg-muted rounded-full text-xs text-muted-foreground">
-                              +{remainingCount}
-                            </div>
-                          )}
-                        </>
-                      );
-                    })()}
+                            )}
+                          </>
+                        );
+                      })()}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Card>
-          ))}
+              </Card>
+            );
+          })}
         </div>
       </div>
     </div>
