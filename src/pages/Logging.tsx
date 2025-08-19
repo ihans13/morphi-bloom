@@ -185,7 +185,7 @@ const Logging = () => {
               variant="ghost"
               className="w-full transition-all duration-200 mt-auto disabled:opacity-100"
               style={{
-                background: noteText.trim() ? '#39403B' : 'linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)))',
+                background: noteText.trim() ? '#39403B' : 'var(--gradient-primary)',
                 color: noteText.trim() ? 'white' : '#39403B',
                 border: 'none',
                 opacity: 1
@@ -225,10 +225,15 @@ const Logging = () => {
                   {templateOptions.map((template) => {
                     const IconComponent = template.icon;
                     return (
-                      <div
-                        key={template.id}
-                        className="w-full p-4 border rounded-lg hover:bg-accent/50 cursor-pointer transition-colors"
-                      >
+                       <div
+                         key={template.id}
+                         className="w-full p-4 border rounded-lg hover:bg-accent/50 cursor-pointer transition-colors"
+                         onClick={() => {
+                           if (template.title === "Signs & Symptoms") {
+                             window.location.href = '/signs-symptoms';
+                           }
+                         }}
+                       >
                         <div className="flex items-start gap-4">
                           <div className={`w-12 h-12 rounded-lg ${template.bgColor} flex items-center justify-center flex-shrink-0`}>
                             <IconComponent className={template.iconColor} size={20} />

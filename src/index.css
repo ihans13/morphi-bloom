@@ -38,7 +38,7 @@ All colors MUST be HSL.
     --ring: 58 10% 23%;
 
     /* Exact gradient from reference image */
-    --gradient-primary: linear-gradient(135deg, #F6C5B1 0%, #EADFB0 63%, #DAE7B3 100%);
+    --gradient-primary: linear-gradient(135deg, #F6C5B1 0%, #EADFB0 50%, #DAE7B3 100%);
     --gradient-secondary: linear-gradient(135deg, hsl(220 14% 96%), hsl(220 13% 91%));
     --gradient-hero: linear-gradient(135deg, #F6C5B1 0%, #EADFB0 50%, #DAE7B3 100%);
     
