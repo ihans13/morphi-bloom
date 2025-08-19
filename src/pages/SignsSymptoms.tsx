@@ -110,9 +110,9 @@ const SignsSymptoms = () => {
   };
 
   return (
-    <div style={{ backgroundColor: '#CDD8D1' }} className="h-screen">
-      <ScrollArea className="h-full">
-        <div className="container mx-auto p-4 max-w-2xl">
+    <div style={{ backgroundColor: '#CDD8D1' }} className="min-h-screen">
+      <ScrollArea className="h-screen">
+        <div className="container mx-auto p-4 max-w-2xl pb-24">
           {/* Header */}
           <div className="flex items-center mb-6">
             <Button
