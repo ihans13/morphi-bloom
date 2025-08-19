@@ -118,7 +118,7 @@ const SignsSymptoms = () => {
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => navigate('/track')}
+              onClick={() => navigate('/logging')}
               className="mr-2"
             >
               <ArrowLeft className="h-4 w-4" />
