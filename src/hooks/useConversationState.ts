@@ -57,19 +57,19 @@ const mockResources: Resource[] = [
   {
     id: '2',
     type: 'article',
-    title: 'Managing Hot Flashes Naturally',
-    subtitle: 'Article by Women\'s Health Collective (6 mins read)',
+    title: 'Grab Some GABA For Menopause Sleep Problems',
+    subtitle: 'Article by Andrea Donsky (6 mins read)',
     thumbnail: '📖',
-    link: '#',
+    link: 'https://wearemorphus.com/blogs/sleep/grab-some-gaba-for-menopause-sleep-problems',
     relevanceScore: 0.8
   },
   {
     id: '3',
-    type: 'product',
-    title: 'Magnesium Complex for Hormonal Balance',
-    subtitle: 'Product recommended by Mayo Clinic',
-    thumbnail: '💊',
-    link: '#',
+    type: 'article',
+    title: 'Don\'t Throw Away Your Melatonin Supplements!',
+    subtitle: 'Article by Andrea Donsky (3 mins read)',
+    thumbnail: '📖',
+    link: 'https://wearemorphus.com/blogs/sleep/don-t-throw-away-your-melatonin-supplements',
     relevanceScore: 0.7
   }
 ];
