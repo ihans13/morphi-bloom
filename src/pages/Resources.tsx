@@ -59,23 +59,29 @@ const Resources = () => {
       }}
     >
       {/* Profile Section */}
-      <div className="text-center space-y-4">
+      <div className="text-center space-y-6 py-8">
         <div className="relative inline-block">
-          <div className="w-16 h-16 bg-card rounded-full border border-border flex items-center justify-center">
-            <User size={24} className="text-muted-foreground" />
+          <div className="w-20 h-20 bg-[#39403B] rounded-full border border-border flex items-center justify-center">
+            <User size={28} className="text-white" />
           </div>
         </div>
         
         {/* Action Buttons */}
         <div className="flex gap-2 justify-center">
-          <Button variant="outline" size="sm" className="text-xs">
+          <Button 
+            size="sm" 
+            className="text-xs bg-[#CDD8D1] text-[#39403B] border-0 hover:bg-[#CDD8D1]/90"
+          >
             Edit Profile
           </Button>
-          <Button variant="outline" size="sm" className="text-xs">
+          <Button 
+            size="sm" 
+            className="text-xs bg-[#CDD8D1] text-[#39403B] border-0 hover:bg-[#CDD8D1]/90"
+          >
             <Settings size={14} className="mr-1" />
             App Settings
           </Button>
-          <Button variant="outline" size="sm" className="text-xs text-destructive border-destructive hover:bg-destructive/10">
+          <Button variant="destructive" size="sm" className="text-xs">
             <LogOut size={14} className="mr-1" />
             Log Out
           </Button>
@@ -86,7 +92,10 @@ const Resources = () => {
 
       {/* My Scrapbook Section */}
       <div className="space-y-4">
-        <h2 className="text-lg font-semibold text-foreground">My Scrapbook</h2>
+        <div>
+          <h2 className="text-lg font-semibold text-foreground">My Scrapbook</h2>
+          <p className="text-sm text-muted-foreground">12 items saved across 4 collections</p>
+        </div>
         
         {/* Search and Add Section */}
         <div className="flex gap-2">
