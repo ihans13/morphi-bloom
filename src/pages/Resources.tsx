@@ -93,7 +93,7 @@ const Resources = () => {
           <div className="relative inline-block">
             <div className="w-20 h-20 bg-muted rounded-full border border-border overflow-hidden">
               <img 
-                src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face&auto=format&q=80" 
+                src="/lovable-uploads/2356048f-70c3-4771-a29f-47ddfdc1fbf5.png" 
                 alt="Profile" 
                 className="w-full h-full object-cover"
               />
