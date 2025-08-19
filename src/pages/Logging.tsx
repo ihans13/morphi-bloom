@@ -174,8 +174,8 @@ const Logging = () => {
             <Dialog>
               <DialogTrigger asChild>
                 <Button 
-                  style={{ backgroundColor: '#39403B', color: 'white' }}
-                  className="w-full hover:opacity-90 transition-opacity duration-200"
+                  className="w-full hover:opacity-90 transition-opacity duration-200 text-white"
+                  style={{ backgroundColor: '#39403B' }}
                 >
                   Browse Templates
                 </Button>
