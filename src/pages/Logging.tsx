@@ -5,10 +5,56 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { FileText, Mic, Edit3, Calendar, TrendingUp, Clock, MessageSquare } from "lucide-react";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { FileText, Mic, Edit3, Calendar, TrendingUp, Clock, MessageSquare, Thermometer, Utensils, Timer, Heart, Activity } from "lucide-react";
 
 const Logging = () => {
-  const [activeTab, setActiveTab] = useState("template");
+  const [activeTab, setActiveTab] = useState("note");
+
+  // Template options data
+  const templateOptions = [
+    {
+      id: "symptoms",
+      title: "Signs & Symptoms",
+      description: "Track physical symptoms and their severity",
+      icon: Thermometer,
+      bgColor: "bg-red-50",
+      iconColor: "text-red-600"
+    },
+    {
+      id: "lifestyle",
+      title: "Eat, Drink, Sleep",
+      description: "Log your meals, hydration, and sleep patterns",
+      icon: Utensils,
+      bgColor: "bg-green-50",
+      iconColor: "text-green-600"
+    },
+    {
+      id: "mood",
+      title: "Mood & Energy",
+      description: "Monitor your emotional wellbeing and energy levels",
+      icon: Timer,
+      bgColor: "bg-purple-50",
+      iconColor: "text-purple-600"
+    },
+    {
+      id: "pain",
+      title: "Pain & Discomfort",
+      description: "Track pain levels and locations throughout the day",
+      icon: Heart,
+      bgColor: "bg-orange-50",
+      iconColor: "text-orange-600"
+    },
+    {
+      id: "medications",
+      title: "Medications & Supplements",
+      description: "Record medication timing and supplement intake",
+      icon: Activity,
+      bgColor: "bg-blue-50",
+      iconColor: "text-blue-600"
+    }
+  ];
 
   // Sample recent entries data
   const recentEntries = [
@@ -51,98 +97,52 @@ const Logging = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto p-4 space-y-6">
-      {/* Header */}
-      <div className="text-center">
-        <h1 className="text-2xl font-bold text-foreground mb-2">Your Journey</h1>
-        <p className="text-muted-foreground text-sm">
-          Embracing the plot twists, because real journeys are rarely linear
-        </p>
-      </div>
-
-      {/* Insight Card */}
-      <Card className="p-4 bg-gradient-to-r from-primary/5 to-primary/10 border-primary/20">
-        <div className="flex items-center gap-2 mb-2">
-          <TrendingUp className="text-primary" size={18} />
-          <h3 className="font-semibold text-sm">Your Insight</h3>
+    <ScrollArea className="h-screen">
+      <div className="max-w-md mx-auto p-4 space-y-6 pb-20">
+        {/* Header */}
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-foreground mb-2">Your Journey</h1>
+          <p className="text-muted-foreground text-sm">
+            Embracing the plot twists, because real journeys are rarely linear
+          </p>
         </div>
-        <p className="text-sm text-muted-foreground">
-          Your headaches seem slightly better and you've slept for 6 hours every night in the last week.
-        </p>
-      </Card>
 
-      {/* Logging Options */}
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
-        <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="template" className="flex items-center gap-2 text-xs">
-            <FileText size={16} />
-            Form
-          </TabsTrigger>
-          <TabsTrigger value="text" className="flex items-center gap-2 text-xs">
-            <Edit3 size={16} />
-            Text
-          </TabsTrigger>
-          <TabsTrigger value="voice" className="flex items-center gap-2 text-xs">
-            <Mic size={16} />
-            Voice
-          </TabsTrigger>
-        </TabsList>
+        {/* Insight Card */}
+        <Card className="p-4 bg-gradient-to-r from-primary/5 to-primary/10 border-primary/20">
+          <div className="flex items-center gap-2 mb-2">
+            <TrendingUp className="text-primary" size={18} />
+            <h3 className="font-semibold text-sm">Your Insight</h3>
+          </div>
+          <p className="text-sm text-muted-foreground">
+            Your headaches seem slightly better and you've slept for 6 hours every night in the last week.
+          </p>
+        </Card>
 
-        <TabsContent value="template" className="space-y-4">
-          <Card className="p-4 space-y-4">
-            <div className="flex items-center gap-2 mb-4">
-              <Calendar className="text-primary" size={20} />
-              <h3 className="font-semibold">Today's Symptoms</h3>
-            </div>
-            
-            <div className="space-y-3">
-              <div>
-                <label className="text-sm font-medium text-foreground block mb-1">
-                  How are you feeling overall?
-                </label>
-                <div className="flex gap-2">
-                  {["😔", "😐", "🙂", "😊", "😄"].map((emoji, index) => (
-                    <Button
-                      key={index}
-                      variant="outline"
-                      size="sm"
-                      className="text-lg hover:bg-accent"
-                    >
-                      {emoji}
-                    </Button>
-                  ))}
-                </div>
-              </div>
-              
-              <div>
-                <label className="text-sm font-medium text-foreground block mb-1">
-                  Sleep Quality
-                </label>
-                <Input placeholder="Hours slept, quality..." />
-              </div>
-              
-              <div>
-                <label className="text-sm font-medium text-foreground block mb-1">
-                  Physical Symptoms
-                </label>
-                <Textarea placeholder="Hot flashes, aches, energy levels..." />
-              </div>
-              
-              <div>
-                <label className="text-sm font-medium text-foreground block mb-1">
-                  Emotional State
-                </label>
-                <Textarea placeholder="Mood, anxiety, stress levels..." />
-              </div>
-            </div>
-            
-            <Button className="w-full bg-gradient-primary hover:shadow-glow transition-all duration-200">
-              Save Entry
-            </Button>
-          </Card>
-        </TabsContent>
+        {/* Question */}
+        <div className="text-center">
+          <h2 className="text-lg font-semibold text-foreground mb-4">
+            How would you like to log today?
+          </h2>
+        </div>
 
-        <TabsContent value="text" className="space-y-4">
+        {/* Logging Options */}
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
+          <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="note" className="flex items-center gap-2 text-xs">
+              <Edit3 size={16} />
+              Write a Note
+            </TabsTrigger>
+            <TabsTrigger value="template" className="flex items-center gap-2 text-xs">
+              <FileText size={16} />
+              Use Template
+            </TabsTrigger>
+            <TabsTrigger value="voice" className="flex items-center gap-2 text-xs">
+              <Mic size={16} />
+              Record Voice
+            </TabsTrigger>
+          </TabsList>
+
+        <TabsContent value="note" className="space-y-4">
           <Card className="p-4 space-y-4">
             <div className="flex items-center gap-2 mb-4">
               <Edit3 className="text-primary" size={20} />
@@ -157,6 +157,54 @@ const Logging = () => {
             <Button className="w-full bg-gradient-primary hover:shadow-glow transition-all duration-200">
               Save Entry
             </Button>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="template" className="space-y-4">
+          <Card className="p-4 space-y-4 text-center">
+            <div className="flex items-center justify-center gap-2 mb-4">
+              <FileText className="text-primary" size={20} />
+              <h3 className="font-semibold">Choose a Template</h3>
+            </div>
+            
+            <p className="text-sm text-muted-foreground mb-4">
+              Select a template to guide your logging experience
+            </p>
+
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button className="w-full bg-gradient-primary hover:shadow-glow transition-all duration-200">
+                  Browse Templates
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-sm">
+                <DialogHeader>
+                  <DialogTitle>Choose a Template</DialogTitle>
+                </DialogHeader>
+                <div className="space-y-3 max-h-96 overflow-y-auto">
+                  {templateOptions.map((template) => {
+                    const IconComponent = template.icon;
+                    return (
+                      <Button
+                        key={template.id}
+                        variant="ghost"
+                        className="w-full p-4 h-auto flex items-start gap-3 hover:bg-accent"
+                      >
+                        <div className={`w-12 h-12 rounded-lg ${template.bgColor} flex items-center justify-center flex-shrink-0`}>
+                          <IconComponent className={template.iconColor} size={20} />
+                        </div>
+                        <div className="text-left flex-1">
+                          <h4 className="font-medium text-sm">{template.title}</h4>
+                          <p className="text-xs text-muted-foreground mt-1">
+                            {template.description}
+                          </p>
+                        </div>
+                      </Button>
+                    );
+                  })}
+                </div>
+              </DialogContent>
+            </Dialog>
           </Card>
         </TabsContent>
 
@@ -181,49 +229,50 @@ const Logging = () => {
             </p>
           </Card>
         </TabsContent>
-      </Tabs>
+        </Tabs>
 
-      {/* Recent Entries */}
-      <div className="space-y-4">
-        <h2 className="text-lg font-semibold text-foreground">Recent Entries</h2>
-        <div className="space-y-3">
-          {recentEntries.map((entry) => {
-            const IconComponent = entry.icon;
-            return (
-              <Card key={entry.id} className="p-4 hover:shadow-md transition-shadow">
-                <div className="flex items-start gap-3">
-                  <div className="flex-shrink-0">
-                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                      <IconComponent className="text-primary" size={18} />
-                    </div>
-                  </div>
-                  <div className="flex-1 space-y-2">
-                    <div className="flex items-center justify-between">
-                      <h3 className="font-medium text-sm">{entry.title}</h3>
-                      <div className="flex items-center gap-2">
-                        <Badge variant="secondary" className="text-xs">
-                          {entry.type}
-                        </Badge>
-                        <Badge className={`text-xs ${getSeverityColor(entry.severity)}`}>
-                          {entry.severity}
-                        </Badge>
+        {/* Recent Entries */}
+        <div className="space-y-4">
+          <h2 className="text-lg font-semibold text-foreground">Recent Entries</h2>
+          <div className="space-y-3">
+            {recentEntries.map((entry) => {
+              const IconComponent = entry.icon;
+              return (
+                <Card key={entry.id} className="p-4 hover:shadow-md transition-shadow">
+                  <div className="flex items-start gap-3">
+                    <div className="flex-shrink-0">
+                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                        <IconComponent className="text-primary" size={18} />
                       </div>
                     </div>
-                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                      <Clock size={12} />
-                      <span>{entry.date}</span>
+                    <div className="flex-1 space-y-2">
+                      <div className="flex items-center justify-between">
+                        <h3 className="font-medium text-sm">{entry.title}</h3>
+                        <div className="flex items-center gap-2">
+                          <Badge variant="secondary" className="text-xs">
+                            {entry.type}
+                          </Badge>
+                          <Badge className={`text-xs ${getSeverityColor(entry.severity)}`}>
+                            {entry.severity}
+                          </Badge>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                        <Clock size={12} />
+                        <span>{entry.date}</span>
+                      </div>
+                      <p className="text-sm text-muted-foreground line-clamp-2">
+                        {entry.preview}
+                      </p>
                     </div>
-                    <p className="text-sm text-muted-foreground line-clamp-2">
-                      {entry.preview}
-                    </p>
                   </div>
-                </div>
-              </Card>
-            );
-          })}
+                </Card>
+              );
+            })}
+          </div>
         </div>
       </div>
-    </div>
+    </ScrollArea>
   );
 };
 
