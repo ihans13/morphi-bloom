@@ -167,7 +167,7 @@ const Logging = () => {
 
         <TabsContent value="note" className="space-y-4">
           <Card className="p-4 space-y-4 min-h-[240px] flex flex-col">
-            <div className="flex items-center gap-2 mb-4">
+            <div className="flex items-center gap-2">
               <Edit3 className="text-primary" size={20} />
               <h3 className="font-semibold">Free Form Entry</h3>
             </div>
@@ -190,13 +190,13 @@ const Logging = () => {
         </TabsContent>
 
         <TabsContent value="template" className="space-y-4">
-          <Card className="p-4 space-y-4 text-center min-h-[240px] flex flex-col justify-center">
-            <div className="flex items-center justify-center gap-2 mb-4">
+          <Card className="p-4 space-y-4 min-h-[240px] flex flex-col">
+            <div className="flex items-center gap-2">
               <FileText className="text-primary" size={20} />
               <h3 className="font-semibold">Choose a Template</h3>
             </div>
             
-            <p className="text-sm text-muted-foreground mb-4">
+            <p className="text-sm text-muted-foreground flex-1">
               Select a template to guide your logging experience
             </p>
 
@@ -242,13 +242,13 @@ const Logging = () => {
         </TabsContent>
 
         <TabsContent value="voice" className="space-y-4">
-          <Card className="p-4 space-y-4 text-center min-h-[240px] flex flex-col justify-center">
-            <div className="flex items-center justify-center gap-2 mb-4">
+          <Card className="p-4 space-y-4 min-h-[240px] flex flex-col">
+            <div className="flex items-center gap-2">
               <Mic className="text-primary" size={20} />
               <h3 className="font-semibold">Voice Recording</h3>
             </div>
             
-            <div className="py-8 flex-1 flex items-center justify-center">
+            <div className="flex-1 flex items-center justify-center">
               <Button 
                 size="lg" 
                 className="rounded-full bg-gradient-primary hover:shadow-glow transition-all duration-200 w-20 h-20"
@@ -257,7 +257,7 @@ const Logging = () => {
               </Button>
             </div>
             
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-muted-foreground mt-auto text-center">
               Tap to start recording your symptoms
             </p>
           </Card>
