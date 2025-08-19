@@ -11,6 +11,36 @@ import { FileText, Mic, Edit3, Calendar, TrendingUp, Clock, MessageSquare, Therm
 
 const Logging = () => {
   const [activeTab, setActiveTab] = useState("note");
+  const [noteText, setNoteText] = useState("");
+  const [recentEntries, setRecentEntries] = useState([
+    {
+      id: 1,
+      title: "Morning Reflection",
+      type: "Template",
+      date: "Today, 8:30 AM",
+      severity: "Mild",
+      preview: "Slept 7 hours, feeling refreshed. Minor headache after coffee.",
+      icon: FileText
+    },
+    {
+      id: 2,
+      title: "Evening Journal",
+      type: "Journal",
+      date: "Yesterday, 9:15 PM",
+      severity: "Moderate",
+      preview: "Energy levels were good today. Had some mood swings...",
+      icon: Edit3
+    },
+    {
+      id: 3,
+      title: "Quick Voice Note",
+      type: "Voice",
+      date: "2 days ago",
+      severity: "Mild",
+      preview: "Voice recording about hot flashes during meeting",
+      icon: Mic
+    }
+  ]);
 
   // Template options data
   const templateOptions = [
@@ -56,36 +86,29 @@ const Logging = () => {
     }
   ];
 
-  // Sample recent entries data
-  const recentEntries = [
-    {
-      id: 1,
-      title: "Morning Reflection",
-      type: "Template",
-      date: "Today, 8:30 AM",
+  const handleSaveNote = () => {
+    if (!noteText.trim()) return;
+    
+    const now = new Date();
+    const timeString = now.toLocaleTimeString('en-US', { 
+      hour: 'numeric', 
+      minute: '2-digit',
+      hour12: true 
+    });
+    
+    const newEntry = {
+      id: Date.now(),
+      title: "Personal Note",
+      type: "Note",
+      date: `Today, ${timeString}`,
       severity: "Mild",
-      preview: "Slept 7 hours, feeling refreshed. Minor headache after coffee.",
-      icon: FileText
-    },
-    {
-      id: 2,
-      title: "Evening Journal",
-      type: "Journal",
-      date: "Yesterday, 9:15 PM",
-      severity: "Moderate",
-      preview: "Energy levels were good today. Had some mood swings...",
+      preview: noteText.length > 50 ? noteText.substring(0, 50) + "..." : noteText,
       icon: Edit3
-    },
-    {
-      id: 3,
-      title: "Quick Voice Note",
-      type: "Voice",
-      date: "2 days ago",
-      severity: "Mild",
-      preview: "Voice recording about hot flashes during meeting",
-      icon: Mic
-    }
-  ];
+    };
+    
+    setRecentEntries([newEntry, ...recentEntries]);
+    setNoteText("");
+  };
 
   const getSeverityColor = (severity: string) => {
     switch (severity) {
@@ -143,25 +166,31 @@ const Logging = () => {
           </TabsList>
 
         <TabsContent value="note" className="space-y-4">
-          <Card className="p-4 space-y-4">
+          <Card className="p-4 space-y-4 min-h-[240px] flex flex-col">
             <div className="flex items-center gap-2 mb-4">
               <Edit3 className="text-primary" size={20} />
               <h3 className="font-semibold">Free Form Entry</h3>
             </div>
             
             <Textarea 
+              value={noteText}
+              onChange={(e) => setNoteText(e.target.value)}
               placeholder="Describe how you're feeling today, any symptoms you're experiencing, or anything else you'd like to track..."
-              className="min-h-32"
+              className="min-h-32 flex-1"
             />
             
-            <Button className="w-full bg-gradient-primary hover:shadow-glow transition-all duration-200">
+            <Button 
+              onClick={handleSaveNote}
+              disabled={!noteText.trim()}
+              className="w-full bg-gradient-primary hover:shadow-glow transition-all duration-200 mt-auto"
+            >
               Save Entry
             </Button>
           </Card>
         </TabsContent>
 
         <TabsContent value="template" className="space-y-4">
-          <Card className="p-4 space-y-4 text-center min-h-[200px] flex flex-col justify-center">
+          <Card className="p-4 space-y-4 text-center min-h-[240px] flex flex-col justify-center">
             <div className="flex items-center justify-center gap-2 mb-4">
               <FileText className="text-primary" size={20} />
               <h3 className="font-semibold">Choose a Template</h3>
@@ -174,7 +203,7 @@ const Logging = () => {
             <Dialog>
               <DialogTrigger asChild>
                 <Button 
-                  className="w-full hover:opacity-90 transition-opacity duration-200 border-0"
+                  className="w-full hover:opacity-90 transition-opacity duration-200 border-0 mt-auto"
                   style={{ backgroundColor: '#39403B', color: 'white' }}
                 >
                   Browse Templates
@@ -213,13 +242,13 @@ const Logging = () => {
         </TabsContent>
 
         <TabsContent value="voice" className="space-y-4">
-          <Card className="p-4 space-y-4 text-center">
+          <Card className="p-4 space-y-4 text-center min-h-[240px] flex flex-col justify-center">
             <div className="flex items-center justify-center gap-2 mb-4">
               <Mic className="text-primary" size={20} />
               <h3 className="font-semibold">Voice Recording</h3>
             </div>
             
-            <div className="py-8">
+            <div className="py-8 flex-1 flex items-center justify-center">
               <Button 
                 size="lg" 
                 className="rounded-full bg-gradient-primary hover:shadow-glow transition-all duration-200 w-20 h-20"
