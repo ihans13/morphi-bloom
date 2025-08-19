@@ -79,7 +79,7 @@ const Resources = () => {
 
   return (
     <div 
-      className="max-w-md mx-auto p-4 space-y-6 h-screen relative"
+      className="max-w-md mx-auto p-4 space-y-6 h-screen flex flex-col overflow-hidden relative"
       style={{
         backgroundImage: `url('/lovable-uploads/9cc76a1c-07f0-433c-b92e-f8ba3a6b0e05.png')`,
         backgroundSize: 'cover',
@@ -123,7 +123,7 @@ const Resources = () => {
       <hr className="border-border" />
 
       {/* My Scrapbook Section */}
-      <div className="space-y-4">
+      <div className="space-y-4 flex-1 overflow-hidden flex flex-col">
         <div>
           <h2 className="text-lg font-semibold text-foreground">My Scrapbook</h2>
           <p className="text-sm text-muted-foreground">12 items saved across 4 collections</p>
@@ -173,7 +173,7 @@ const Resources = () => {
         </div>
 
         {/* Folders Grid */}
-        <div className={`grid gap-3 ${folders.length === 1 ? 'grid-cols-1' : 'grid-cols-2'} overflow-y-auto max-h-96`}>
+        <div className={`grid gap-3 ${folders.length === 1 ? 'grid-cols-1' : 'grid-cols-2'} flex-1 overflow-y-auto pb-20`}>
           {folders.map((folder) => {
             const isFullWidth = folders.length === 1;
             return (
@@ -208,19 +208,11 @@ const Resources = () => {
                     </div>
                   
                     {/* Pill Buttons */}
-                    <div className="flex gap-1 flex-wrap min-h-[20px]">
+                    <div className="flex gap-1 flex-wrap">
                       {(() => {
                         const { categories, maxVisible } = getCategoriesForFolder(folder.id, isFullWidth, folder.itemCount);
                         const visibleCategories = categories.slice(0, maxVisible);
                         const remainingCount = categories.length - maxVisible;
-                        
-                        if (categories.length === 0) {
-                          return (
-                            <div className="text-xs text-muted-foreground/60 italic">
-                              Empty folder
-                            </div>
-                          );
-                        }
                         
                         return (
                           <>
