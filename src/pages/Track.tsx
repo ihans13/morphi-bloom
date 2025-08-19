@@ -70,9 +70,9 @@ const Track = () => {
 
   // Today's symptoms data
   const todaysSymptoms = [
-    { id: 1, name: "Hot Flashes", severity: "Moderate", time: "10:30 AM", icon: Thermometer },
-    { id: 2, name: "Brain Fog", severity: "Mild", time: "2:15 PM", icon: Brain },
-    { id: 3, name: "Sleep Quality", severity: "Poor", time: "Last night", icon: Moon },
+    { id: 1, name: "Hot Flashes", severity: "Moderate", time: "10:30 AM", icon: "Thermometer" },
+    { id: 2, name: "Brain Fog", severity: "Mild", time: "2:15 PM", icon: "Brain" },
+    { id: 3, name: "Sleep Quality", severity: "Poor", time: "Last night", icon: "Moon" },
   ];
 
   // Weekly trends data
@@ -88,7 +88,7 @@ const Track = () => {
       id: "symptoms",
       title: "Signs & Symptoms",
       description: "Track physical symptoms and their severity",
-      icon: Thermometer,
+      icon: "Thermometer",
       bgColor: "bg-red-50",
       iconColor: "text-red-600"
     },
@@ -96,7 +96,7 @@ const Track = () => {
       id: "lifestyle",
       title: "Eat, Drink, Sleep",
       description: "Log your meals, hydration, and sleep patterns",
-      icon: Utensils,
+      icon: "Utensils",
       bgColor: "bg-green-50",
       iconColor: "text-green-600"
     },
@@ -104,7 +104,7 @@ const Track = () => {
       id: "mood",
       title: "Mood & Energy",
       description: "Monitor your emotional wellbeing and energy levels",
-      icon: Timer,
+      icon: "Timer",
       bgColor: "bg-purple-50",
       iconColor: "text-purple-600"
     },
@@ -112,7 +112,7 @@ const Track = () => {
       id: "pain",
       title: "Pain & Discomfort",
       description: "Track pain levels and locations throughout the day",
-      icon: Heart,
+      icon: "Heart",
       bgColor: "bg-orange-50",
       iconColor: "text-orange-600"
     },
@@ -120,7 +120,7 @@ const Track = () => {
       id: "medications",
       title: "Medications & Supplements",
       description: "Record medication timing and supplement intake",
-      icon: Activity,
+      icon: "Activity",
       bgColor: "bg-blue-50",
       iconColor: "text-blue-600"
     }
@@ -177,6 +177,12 @@ const Track = () => {
       case 'FileText': return FileText;
       case 'Edit3': return Edit3;
       case 'Mic': return Mic;
+      case 'Brain': return Brain;
+      case 'Moon': return Moon;
+      case 'Utensils': return Utensils;
+      case 'Timer': return Timer;
+      case 'Heart': return Heart;
+      case 'Activity': return Activity;
       default: return FileText;
     }
   };
@@ -282,7 +288,7 @@ const Track = () => {
                     </DialogHeader>
                     <div className="space-y-3 overflow-y-auto">
                       {templateOptions.map((template) => {
-                        const IconComponent = template.icon;
+                        const IconComponent = getIconComponent(template.icon);
                         return (
                            <div
                              key={template.id}
