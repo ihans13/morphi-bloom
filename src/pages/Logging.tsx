@@ -161,7 +161,7 @@ const Logging = () => {
         </TabsContent>
 
         <TabsContent value="template" className="space-y-4">
-          <Card className="p-4 space-y-4 text-center">
+          <Card className="p-4 space-y-4 text-center min-h-[200px] flex flex-col justify-center">
             <div className="flex items-center justify-center gap-2 mb-4">
               <FileText className="text-primary" size={20} />
               <h3 className="font-semibold">Choose a Template</h3>
@@ -173,15 +173,18 @@ const Logging = () => {
 
             <Dialog>
               <DialogTrigger asChild>
-                <Button className="w-full bg-gradient-primary hover:shadow-glow transition-all duration-200">
+                <Button 
+                  style={{ backgroundColor: '#39403B', color: 'white' }}
+                  className="w-full hover:opacity-90 transition-opacity duration-200"
+                >
                   Browse Templates
                 </Button>
               </DialogTrigger>
-              <DialogContent className="max-w-sm">
+              <DialogContent className="max-w-sm max-h-[80vh]">
                 <DialogHeader>
                   <DialogTitle>Choose a Template</DialogTitle>
                 </DialogHeader>
-                <div className="space-y-3 max-h-96 overflow-y-auto">
+                <div className="space-y-3 overflow-y-auto flex-1">
                   {templateOptions.map((template) => {
                     const IconComponent = template.icon;
                     return (
@@ -193,9 +196,9 @@ const Logging = () => {
                         <div className={`w-12 h-12 rounded-lg ${template.bgColor} flex items-center justify-center flex-shrink-0`}>
                           <IconComponent className={template.iconColor} size={20} />
                         </div>
-                        <div className="text-left flex-1">
+                        <div className="text-left flex-1 min-w-0">
                           <h4 className="font-medium text-sm">{template.title}</h4>
-                          <p className="text-xs text-muted-foreground mt-1">
+                          <p className="text-xs text-muted-foreground mt-1 break-words">
                             {template.description}
                           </p>
                         </div>
