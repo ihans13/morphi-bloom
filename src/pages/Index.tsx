@@ -12,7 +12,7 @@ const Index = () => {
   const weeklyInsights = [
     {
       id: 1,
-      title: "Managing Sleep During Perimenopause",
+      title: "Managing Sleep During Perimenopause and Menopause",
       description: "Expert tips for better rest and recovery",
       readTime: "5 min read",
       category: "Sleep & Rest",
@@ -65,7 +65,7 @@ const Index = () => {
           <h1 className="text-2xl font-bold">Welcome</h1>
         </div>
         <p className="text-foreground/80 text-sm leading-relaxed">
-          Your personal companion for understanding and navigating perimenopause with confidence
+          Your personal companion for understanding and navigating perimenopause and menopause with confidence
         </p>
       </div>
 

@@ -140,7 +140,7 @@ export const useConversationState = () => {
           };
           
           const stat = symptomStats[symptoms[0] as keyof typeof symptomStats] || '65%';
-          validationResponse += `Feeling confused about what's happening is so normal - many women experience this uncertainty. According to Morphus research, ${symptoms[0]} affects about ${stat} of women during perimenopause. `;
+          validationResponse += `Feeling confused about what's happening is so normal - many women experience this uncertainty. According to Morphus research, ${symptoms[0]} affects about ${stat} of women during perimenopause and menopause. `;
         }
         
         validationResponse += `It sounds like you're going through quite a lot right now. You mentioned ${symptoms.length > 0 ? symptoms[0] : 'these changes'} - anything else you've noticed changing around that time?`;

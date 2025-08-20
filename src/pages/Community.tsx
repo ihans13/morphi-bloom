@@ -18,7 +18,7 @@ const Community = () => {
       ],
       timestamp: "2 hours ago",
       aiResponse: {
-        content: "This is very common during perimenopause, which typically begins in your 40s. Irregular periods are one of the first signs as hormone levels fluctuate. Consider tracking your symptoms and discussing with your healthcare provider.",
+        content: "This is very common during perimenopause and menopause, which typically begins in your 40s. Irregular periods are one of the first signs as hormone levels fluctuate. Consider tracking your symptoms and discussing with your healthcare provider.",
         resources: []
       }
     },
@@ -37,14 +37,14 @@ const Community = () => {
     {
       id: 3,
       author: "Anonymous",
-      content: "I've been struggling with mood swings and brain fog. Is this normal during perimenopause?",
+      content: "I've been struggling with mood swings and brain fog. Is this normal during perimenopause and menopause?",
       reactions: 23,
       comments: [
         { id: 1, author: "Dr. Emma T.", content: "These are very common symptoms due to hormonal fluctuations affecting neurotransmitters.", timestamp: "1 day ago" }
       ],
       timestamp: "1 day ago",
       aiResponse: {
-        content: "Yes, mood changes and cognitive symptoms like brain fog are very common during perimenopause. The fluctuating estrogen levels affect serotonin and other neurotransmitters. Here's an excellent resource about the psychological effects:",
+        content: "Yes, mood changes and cognitive symptoms like brain fog are very common during perimenopause and menopause. The fluctuating estrogen levels affect serotonin and other neurotransmitters. Here's an excellent resource about the psychological effects:",
         resources: [
           {
             type: "youtube",
@@ -81,7 +81,7 @@ const Community = () => {
       ],
       timestamp: "14 hours ago",
       aiResponse: {
-        content: "Sleep disturbances affect up to 80% of women during perimenopause. Declining estrogen and progesterone levels disrupt your natural sleep-wake cycle. Good sleep hygiene, keeping cool, and consistent routines can help significantly.",
+        content: "Sleep disturbances affect up to 80% of women during perimenopause and menopause. Declining estrogen and progesterone levels disrupt your natural sleep-wake cycle. Good sleep hygiene, keeping cool, and consistent routines can help significantly.",
         resources: []
       }
     }

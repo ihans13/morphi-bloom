@@ -46,7 +46,7 @@ const Chat = () => {
     {
       id: 1,
       sender: "morphi",
-      content: "Hi! I'm Morphi, your perimenopause companion. I'm here to listen, help you understand your symptoms and navigate this journey. How are you feeling today?",
+      content: "Hi! I'm Morphi, your perimenopause and menopause companion. I'm here to listen, help you understand your symptoms and navigate this journey. How are you feeling today?",
       timestamp: new Date(),
       hasResources: false
     }
@@ -115,7 +115,7 @@ const Chat = () => {
         setUserSymptoms(prev => [...new Set([...prev, ...symptoms])]);
         
         return {
-          content: `Feeling confused about what's happening is so normal - many women experience this uncertainty. According to our research, ${symptoms.length > 0 ? `symptoms like ${symptoms.join(', ')} are` : 'these experiences are'} very common during perimenopause. It sounds like you're dealing with some significant changes. Have you noticed if these symptoms happen at certain times of day or month?`,
+          content: `Feeling confused about what's happening is so normal - many women experience this uncertainty. According to our research, ${symptoms.length > 0 ? `symptoms like ${symptoms.join(', ')} are` : 'these experiences are'} very common during perimenopause and menopause. It sounds like you're dealing with some significant changes. Have you noticed if these symptoms happen at certain times of day or month?`,
           newStage: 'symptom_gathering',
           hasResources: false
         };
@@ -158,7 +158,7 @@ const Chat = () => {
         
       default:
         return {
-          content: "Thank you for sharing. I'm here to support you through your perimenopause journey. Tell me more about what you're experiencing.",
+          content: "Thank you for sharing. I'm here to support you through your perimenopause and menopause journey. Tell me more about what you're experiencing.",
           newStage: 'listening',
           hasResources: false
         };
